@@ -22,10 +22,15 @@ export default function Lesson() {
   const lessonData = getLessonData(id || "intro-rhymes");
   const exercises = lessonData.exercises;
   
-  // If no user is logged in, redirect to login
+  // If no user is logged in, check localStorage before redirecting
   useEffect(() => {
     if (!user) {
-      setLocation("/");
+      // Check if username exists in localStorage
+      const storedUsername = localStorage.getItem('username');
+      if (!storedUsername) {
+        // Only redirect if no username is stored
+        setLocation("/");
+      }
     }
   }, [user, setLocation]);
 
