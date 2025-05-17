@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 97%;
+  --foreground: 240 10% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 4%;
+  --primary: 0 84% 67%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 271 85% 51%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 55 100% 68%;
+  --accent-foreground: 24 10% 10%;
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 4% 46%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 6% 90%;
+  --input: 240 6% 90%;
+  --ring: 271 85% 51%;
+  --radius: 0.5rem;
+
+  /* Custom Colors */
+  --success: 142 67% 52%;
+  --dark: 240 10% 8%;
+  --light: 0 0% 100%;
+}
+
+.dark {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 4%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 4%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 84% 67%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 271 85% 51%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 55 100% 68%;
+  --accent-foreground: 24 10% 10%;
+  --muted: 240 4% 16%;
+  --muted-foreground: 240 5% 65%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 4% 16%;
+  --input: 240 4% 16%;
+  --ring: 271 85% 51%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins font-bold;
+  }
+}
+
+@layer utilities {
+  .font-poppins {
+    font-family: 'Poppins', sans-serif;
+  }
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .xp-progress {
+    @apply h-2.5 rounded-full overflow-hidden bg-muted;
+  }
+  .xp-bar {
+    @apply h-full transition-all duration-500 ease-in-out bg-secondary;
+  }
+  .btn-primary {
+    @apply bg-primary text-white transition-all duration-200 hover:bg-primary/90 hover:-translate-y-0.5 active:translate-y-0;
+  }
+  .lesson-card {
+    @apply transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg;
+  }
+  .question-option {
+    @apply transition-all duration-200 cursor-pointer hover:border-secondary;
+  }
+  .question-option.selected {
+    @apply border-secondary bg-secondary/5;
+  }
+}
