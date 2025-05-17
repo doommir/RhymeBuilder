@@ -43,6 +43,15 @@ interface MatchingExercise extends BaseExercise {
   }>;
 }
 
+interface RhymeMatchExercise extends BaseExercise {
+  type: 'rhyme_match';
+  pairs: Array<{
+    id: string;
+    left: string;
+    right: string;
+  }>;
+}
+
 interface TapWordExercise extends BaseExercise {
   type: 'tap-word';
   correctSequence: string[];
@@ -55,12 +64,20 @@ interface FlashcardExercise extends BaseExercise {
   definition: string;
 }
 
+interface InfoCardExercise extends BaseExercise {
+  type: 'info_card';
+  term: string;
+  definition: string;
+}
+
 type Exercise = 
   | MultipleChoiceExercise
   | FillBlankExercise
   | MatchingExercise
   | TapWordExercise
-  | FlashcardExercise;
+  | FlashcardExercise
+  | InfoCardExercise
+  | RhymeMatchExercise;
 
 interface Lesson {
   id: string;
@@ -82,11 +99,11 @@ const lessons: Record<string, Lesson> = {
     title: "Intro to Rhymes",
     description: "Learn the basics of rhyming patterns",
     level: 1,
-    totalXp: 25,
+    totalXp: 30,
     exercises: [
       {
         id: "ex1",
-        type: "flashcard",
+        type: "info_card",
         question: "What is a rhyme?",
         term: "Rhyme",
         definition: "A repetition of similar sounds in two or more words, often at the ends of lines",
@@ -105,7 +122,7 @@ const lessons: Record<string, Lesson> = {
       },
       {
         id: "ex3",
-        type: "matching",
+        type: "rhyme_match",
         question: "Match these rhyming pairs",
         pairs: [
           { id: "pair1", left: "Beat", right: "Street" },
@@ -116,24 +133,33 @@ const lessons: Record<string, Lesson> = {
       },
       {
         id: "ex4",
-        type: "fill-blank",
-        question: "Complete this rhyming line",
-        sentence: "I'm dropping beats that make the crowd go _____",
-        blankIndex: 7,
+        type: "multiple-choice",
+        question: "Which of these words rhymes with 'cat'?",
         options: [
-          { id: "opt1", text: "wild", isCorrect: true },
-          { id: "opt2", text: "home", isCorrect: false },
-          { id: "opt3", text: "stop", isCorrect: false }
+          { id: "opt1", text: "Hat", isCorrect: true },
+          { id: "opt2", text: "Dog", isCorrect: false },
+          { id: "opt3", text: "Car", isCorrect: false }
         ],
-        explanation: "In rap, 'wild' rhymes with the implied preceding line ending that would rhyme with 'wild'",
+        explanation: "Cat and hat share the same ending sound pattern '-at'",
         xpReward: 5
       },
       {
         id: "ex5",
-        type: "tap-word",
-        question: "Tap the words in order to create a rhyming couplet",
-        correctSequence: ["My", "rhymes", "flow", "like", "a", "stream", "Making", "dope", "beats", "is", "my", "dream"],
-        wordOptions: ["My", "rhymes", "flow", "like", "a", "stream", "Making", "dope", "beats", "is", "my", "dream", "stop", "going", "fast"],
+        type: "info_card",
+        question: "Types of Rhymes",
+        term: "Perfect vs. Slant Rhymes",
+        definition: "Perfect rhymes match exactly in sound (e.g., cat/hat). Slant rhymes are close but not exact (e.g., home/stone).",
+        xpReward: 5
+      },
+      {
+        id: "ex6",
+        type: "rhyme_match",
+        question: "Match these slant rhyming pairs",
+        pairs: [
+          { id: "pair1", left: "Home", right: "Stone" },
+          { id: "pair2", left: "Move", right: "Proof" },
+          { id: "pair3", left: "Work", right: "Hurt" }
+        ],
         xpReward: 5
       }
     ]
@@ -147,7 +173,7 @@ const lessons: Record<string, Lesson> = {
     exercises: [
       {
         id: "fb-ex1",
-        type: "flashcard",
+        type: "info_card",
         question: "What is flow in rap?",
         term: "Flow",
         definition: "The rhythm and timing of words over a beat",
@@ -176,11 +202,106 @@ const lessons: Record<string, Lesson> = {
           { id: "fb-blank-opt3", text: "competition", isCorrect: false }
         ],
         xpReward: 5
+      },
+      {
+        id: "fb-ex4",
+        type: "rhyme_match",
+        question: "Match these flow-related rhyming pairs",
+        pairs: [
+          { id: "fb-pair1", left: "Beat", right: "Feet" },
+          { id: "fb-pair2", left: "Flow", right: "Go" },
+          { id: "fb-pair3", left: "Rhyme", right: "Time" }
+        ],
+        xpReward: 5
+      },
+      {
+        id: "fb-ex5",
+        type: "multiple-choice",
+        question: "Which of these is NOT an element of good flow?",
+        options: [
+          { id: "fb-mc1", text: "Using the exact same rhythm for every line", isCorrect: true },
+          { id: "fb-mc2", text: "Varying your cadence for emphasis", isCorrect: false },
+          { id: "fb-mc3", text: "Staying on beat", isCorrect: false }
+        ],
+        explanation: "Good flow often involves variety and dynamics rather than monotonous rhythms",
+        xpReward: 5
+      },
+      {
+        id: "fb-ex6",
+        type: "info_card",
+        question: "What is cadence?",
+        term: "Cadence",
+        definition: "The rhythmic flow of words - the rise and fall, speed and emphasis of your delivery",
+        xpReward: 5
       }
     ],
     unlockRequirement: {
       lessonId: "intro-rhymes",
       minLevel: 1
+    }
+  },
+  "rhyme-patterns": {
+    id: "rhyme-patterns",
+    title: "Rhyme Patterns",
+    description: "Learn different rhyming structures",
+    level: 2,
+    totalXp: 35,
+    exercises: [
+      {
+        id: "rp-ex1",
+        type: "info_card",
+        question: "What are rhyme patterns?",
+        term: "Rhyme Patterns",
+        definition: "Structured arrangements of rhymes that create predictable sound schemes in your lyrics",
+        xpReward: 5
+      },
+      {
+        id: "rp-ex2",
+        type: "multiple-choice",
+        question: "What is an AABB rhyme scheme?",
+        options: [
+          { id: "rp-opt1", text: "When the first and third lines rhyme, and the second and fourth lines rhyme", isCorrect: false },
+          { id: "rp-opt2", text: "When the first two lines rhyme with each other, and the next two lines rhyme with each other", isCorrect: true },
+          { id: "rp-opt3", text: "When every line has the same rhyme", isCorrect: false }
+        ],
+        xpReward: 5
+      },
+      {
+        id: "rp-ex3",
+        type: "rhyme_match",
+        question: "Match these words that follow an AABB pattern",
+        pairs: [
+          { id: "rp-pair1", left: "Cat", right: "Hat" },
+          { id: "rp-pair2", left: "Cat", right: "Bat" },
+          { id: "rp-pair3", left: "Flow", right: "Glow" },
+          { id: "rp-pair4", left: "Speed", right: "Need" }
+        ],
+        xpReward: 5
+      },
+      {
+        id: "rp-ex4",
+        type: "multiple-choice",
+        question: "What is internal rhyme?",
+        options: [
+          { id: "rp-mc1", text: "Rhyming words at the end of consecutive lines", isCorrect: false },
+          { id: "rp-mc2", text: "Rhyming words within the same line", isCorrect: true },
+          { id: "rp-mc3", text: "Rhyming the first word of each line", isCorrect: false }
+        ],
+        explanation: "Internal rhymes occur when words rhyme within a single line, not just at the end",
+        xpReward: 5
+      },
+      {
+        id: "rp-ex5",
+        type: "info_card",
+        question: "Advanced Techniques",
+        term: "Multisyllabic Rhymes",
+        definition: "Rhyming multiple syllables instead of just one (e.g., 'remember' with 'December')",
+        xpReward: 5
+      }
+    ],
+    unlockRequirement: {
+      lessonId: "flow-basics",
+      minLevel: 2
     }
   }
 };
