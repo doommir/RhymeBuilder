@@ -4,7 +4,9 @@ type ExerciseType =
   | 'fill-blank'
   | 'matching'
   | 'tap-word'
-  | 'flashcard';
+  | 'flashcard'
+  | 'info_card'
+  | 'rhyme_match';
 
 interface Option {
   id: string;

@@ -5,12 +5,17 @@ import { Button } from "@/components/ui/button";
 import FlashcardExercise from "./FlashcardExercise";
 import FillBlankExercise from "./FillBlankExercise";
 import TapWordExercise from "./TapWordExercise";
+import MultipleChoiceExercise from "./MultipleChoiceExercise";
+import RhymeMatchExercise from "./RhymeMatchExercise";
 
 // Define all possible exercise types
 export type ExerciseType = 
   | 'flashcard'
   | 'fill-blank'
-  | 'tap-word';
+  | 'tap-word'
+  | 'multiple-choice'
+  | 'info_card'
+  | 'rhyme_match';
 
 // Common properties for all exercise types
 interface BaseExercise {
@@ -28,6 +33,12 @@ interface FlashcardExerciseData extends BaseExercise {
   definition: string;
 }
 
+interface InfoCardExerciseData extends BaseExercise {
+  type: 'info_card';
+  term: string;
+  definition: string;
+}
+
 interface FillBlankExerciseData extends BaseExercise {
   type: 'fill-blank';
   sentence: string;
@@ -41,10 +52,23 @@ interface TapWordExerciseData extends BaseExercise {
   wordOptions: string[];
 }
 
+interface MultipleChoiceExerciseData extends BaseExercise {
+  type: 'multiple-choice';
+  options: Array<{id: string, text: string, isCorrect: boolean}>;
+}
+
+interface RhymeMatchExerciseData extends BaseExercise {
+  type: 'rhyme_match';
+  pairs: Array<{id: string, left: string, right: string}>;
+}
+
 export type Exercise = 
   | FlashcardExerciseData
+  | InfoCardExerciseData
   | FillBlankExerciseData
-  | TapWordExerciseData;
+  | TapWordExerciseData
+  | MultipleChoiceExerciseData
+  | RhymeMatchExerciseData;
 
 interface ExerciseWrapperProps {
   exercise: Exercise;
@@ -68,6 +92,7 @@ export default function ExerciseWrapper({
   const renderExercise = () => {
     switch (exercise.type) {
       case 'flashcard':
+      case 'info_card':
         return (
           <FlashcardExercise
             term={exercise.term}
@@ -90,6 +115,22 @@ export default function ExerciseWrapper({
           <TapWordExercise
             correctSequence={exercise.correctSequence}
             wordOptions={exercise.wordOptions}
+            onComplete={onComplete}
+          />
+        );
+      case 'multiple-choice':
+        return (
+          <MultipleChoiceExercise
+            options={exercise.options}
+            explanation={exercise.explanation}
+            onComplete={onComplete}
+          />
+        );
+      case 'rhyme_match':
+        return (
+          <RhymeMatchExercise
+            pairs={exercise.pairs}
+            explanation={exercise.explanation}
             onComplete={onComplete}
           />
         );
