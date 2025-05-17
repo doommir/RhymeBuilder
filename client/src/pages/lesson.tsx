@@ -60,11 +60,7 @@ export default function Lesson() {
     setLocation("/dashboard");
   };
 
-  // Get random motivational message
-  const getRandomMotivationalMessage = () => {
-    const randomIndex = Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length);
-    return MOTIVATIONAL_MESSAGES[randomIndex];
-  };
+
 
   if (!user) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
