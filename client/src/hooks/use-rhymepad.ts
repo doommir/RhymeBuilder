@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
+import { useToast } from '@/hooks/use-toast';
 
 export type RhymePadEntry = {
   id: string;
@@ -9,6 +10,34 @@ export type RhymePadEntry = {
   lessonId?: string;
   dateCreated: string;
   isFavorite: boolean;
+};
+
+// Global variable to store the add entry function
+let globalAddEntryFn: ((entry: Omit<RhymePadEntry, 'id' | 'dateCreated'>) => RhymePadEntry) | null = null;
+
+export const saveToRhymePad = (
+  content: string, 
+  tags: string[], 
+  lessonId: string
+): boolean => {
+  if (!globalAddEntryFn) {
+    console.error('RhymePad not initialized yet!');
+    return false;
+  }
+  
+  try {
+    globalAddEntryFn({
+      content,
+      tags,
+      addedFrom: 'lesson',
+      lessonId,
+      isFavorite: false
+    });
+    return true;
+  } catch (error) {
+    console.error('Failed to save to RhymePad:', error);
+    return false;
+  }
 };
 
 export function useRhymePad() {
@@ -47,6 +76,15 @@ export function useRhymePad() {
     setEntries(prev => [newEntry, ...prev]);
     return newEntry;
   };
+  
+  // Register the global addEntry function
+  useEffect(() => {
+    globalAddEntry = addEntry;
+    
+    return () => {
+      globalAddEntry = null;
+    };
+  }, []);
 
   const deleteEntry = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id));

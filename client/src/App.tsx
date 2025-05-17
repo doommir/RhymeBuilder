@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
 import Dashboard from "@/pages/dashboard";
 import Lesson from "@/pages/lesson";
+import RhymePadPage from "@/pages/rhymepad";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Login} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/lesson/:id" component={Lesson} />
+      <Route path="/rhymepad" component={RhymePadPage} />
       <Route component={NotFound} />
     </Switch>
   );
