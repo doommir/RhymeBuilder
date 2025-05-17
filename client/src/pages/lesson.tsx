@@ -1,21 +1,26 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useUser } from "@/hooks/use-user";
-import LessonOption from "@/components/LessonOption";
-import LessonComplete from "@/components/LessonComplete";
 import { getLessonData } from "@/lib/lesson-data";
+import ExerciseWrapper, { Exercise } from "@/components/exercises/ExerciseWrapper";
+import LessonComplete from "@/components/LessonComplete";
+
+
 
 export default function Lesson() {
   const { id } = useParams();
   const [, setLocation] = useLocation();
-  const { user, updateXP } = useUser();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const { user, completeLesson } = useUser();
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [earnedXp, setEarnedXp] = useState(0);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
   
-  const lessonData = getLessonData(id);
-  const totalQuestions = lessonData.questions.length;
+  const lessonData = getLessonData(id || "intro-rhymes");
+  const exercises = lessonData.exercises;
   
   // If no user is logged in, redirect to login
   useEffect(() => {
@@ -24,18 +29,23 @@ export default function Lesson() {
     }
   }, [user, setLocation]);
 
-  const handleOptionSelect = (optionId: string) => {
-    setSelectedOption(optionId);
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestion < totalQuestions - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption(null);
+  // Handler for exercise completion
+  const handleExerciseComplete = (correct: boolean) => {
+    // Add XP if answer was correct
+    if (correct) {
+      const xp = exercises[currentExerciseIndex].xpReward;
+      setEarnedXp(prev => prev + xp);
+      setCorrectAnswers(prev => prev + 1);
+    }
+    
+    // Move to next exercise or show completion
+    if (currentExerciseIndex < exercises.length - 1) {
+      setCurrentExerciseIndex(currentExerciseIndex + 1);
     } else {
-      // Last question, show completion modal
+      // Last exercise completed, show completion modal
+      window.sfx.playComplete();
       if (user) {
-        updateXP(user.xp + 10);
+        completeLesson(lessonData.id, earnedXp);
       }
       setShowCompleteModal(true);
     }
@@ -50,12 +60,15 @@ export default function Lesson() {
     setLocation("/dashboard");
   };
 
+  // Get random motivational message
+  const getRandomMotivationalMessage = () => {
+    const randomIndex = Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length);
+    return MOTIVATIONAL_MESSAGES[randomIndex];
+  };
+
   if (!user) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
-
-  const questionData = lessonData.questions[currentQuestion];
-  const progressPercentage = ((currentQuestion + 1) / totalQuestions) * 100;
 
   return (
     <div className="min-h-screen pb-16 bg-background">
@@ -68,52 +81,40 @@ export default function Lesson() {
             <i className="ri-arrow-left-line mr-1 text-xl"></i>
             <span>Back</span>
           </button>
-          <div className="font-poppins font-semibold text-sm">
-            {currentQuestion + 1}/{totalQuestions}
+          <div className="flex items-center">
+            <Badge variant="outline" className="font-medium bg-secondary/10 text-secondary">
+              <i className="ri-flashlight-line mr-1"></i>
+              {earnedXp} XP Earned
+            </Badge>
           </div>
         </div>
       </header>
 
       <div className="max-w-3xl mx-auto px-4 pt-6">
-        <div className="xp-progress mb-8">
-          <div 
-            className="xp-bar" 
-            style={{ width: `${progressPercentage}%` }}
-          ></div>
-        </div>
-
-        <div className="question">
-          <h2 className="text-2xl mb-6 text-center">{lessonData.title}</h2>
-          <p className="text-center text-gray-600 mb-8">{questionData.question}</p>
-          
-          <div className="space-y-3 mb-8">
-            {questionData.options.map((option) => (
-              <LessonOption
-                key={option.id}
-                option={option}
-                isSelected={selectedOption === option.id}
-                onSelect={() => handleOptionSelect(option.id)}
-              />
-            ))}
-          </div>
-
-          <div className="flex justify-center">
-            <Button 
-              className="btn-primary px-8 py-3 rounded-lg font-poppins font-semibold text-lg"
-              onClick={handleNextQuestion}
-              disabled={!selectedOption}
-            >
-              {currentQuestion < totalQuestions - 1 ? "Continue" : "Finish Lesson"}
-            </Button>
-          </div>
+        <h1 className="text-2xl font-bold mb-6 text-center">{lessonData.title}</h1>
+        
+        {/* Show current exercise */}
+        <div className="mb-8">
+          {!showCompleteModal && (
+            <ExerciseWrapper
+              exercise={exercises[currentExerciseIndex] as Exercise}
+              totalExercises={exercises.length}
+              currentExerciseIndex={currentExerciseIndex}
+              onComplete={handleExerciseComplete}
+            />
+          )}
         </div>
       </div>
 
+      {/* Lesson completion modal */}
       {showCompleteModal && (
         <LessonComplete 
-          xp={10} 
-          totalXp={user.xp} 
-          onContinue={handleContinueToDashboard} 
+          xp={earnedXp}
+          totalXp={user.xp + earnedXp}
+          correctAnswers={correctAnswers}
+          totalExercises={exercises.length}
+          nextLevel={user.level + 1}
+          onContinue={handleContinueToDashboard}
         />
       )}
     </div>

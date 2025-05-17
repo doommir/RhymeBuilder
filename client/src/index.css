@@ -92,4 +92,40 @@
   .question-option.selected {
     @apply border-secondary bg-secondary/5;
   }
+  
+  /* 3D card flip animation styles */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  /* Exercise feedback styles */
+  .feedback-correct {
+    @apply border-green-500 bg-green-50 text-green-700;
+  }
+  .feedback-incorrect {
+    @apply border-red-500 bg-red-50 text-red-700;
+  }
+  
+  /* Tap word exercise styles */
+  .tap-word-option {
+    @apply px-3 py-1.5 rounded-lg border-2 text-gray-700 cursor-pointer select-none transition-all;
+  }
+  .tap-word-option.selected {
+    @apply bg-secondary text-white;
+  }
+  .tap-word-option.correct {
+    @apply bg-green-500 text-white;
+  }
+  .tap-word-option.incorrect {
+    @apply bg-red-500 text-white;
+  }
 }
