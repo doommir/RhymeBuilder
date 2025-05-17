@@ -7,6 +7,8 @@ import { useUser } from "@/hooks/use-user";
 import { getLessonData } from "@/lib/lesson-data";
 import ExerciseWrapper, { Exercise } from "@/components/exercises/ExerciseWrapper";
 import LessonComplete from "@/components/LessonComplete";
+import LessonCompleteWithSave from "@/components/exercises/LessonCompleteWithSave";
+import { useRhymePad, saveToRhymePad } from "@/hooks/use-rhymepad";
 
 
 
@@ -108,7 +110,19 @@ export default function Lesson() {
       </div>
 
       {/* Lesson completion modal */}
-      {showCompleteModal && (
+      {showCompleteModal && id === "filler-phrases-101" ? (
+        <LessonCompleteWithSave 
+          xp={earnedXp}
+          totalXp={user.xp + earnedXp}
+          correctAnswers={correctAnswers}
+          totalExercises={exercises.length}
+          nextLevel={user.level + 1}
+          fillerPhrase="You already know"
+          fillerPhraseTags={["filler", "confidence", "versatile"]}
+          lessonId={id || "filler-phrases-101"}
+          onContinue={handleContinueToDashboard}
+        />
+      ) : showCompleteModal && (
         <LessonComplete 
           xp={earnedXp}
           totalXp={user.xp + earnedXp}

@@ -79,10 +79,10 @@ export function useRhymePad() {
   
   // Register the global addEntry function
   useEffect(() => {
-    globalAddEntry = addEntry;
+    globalAddEntryFn = addEntry;
     
     return () => {
-      globalAddEntry = null;
+      globalAddEntryFn = null;
     };
   }, []);
 

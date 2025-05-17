@@ -303,6 +303,73 @@ const lessons: Record<string, Lesson> = {
       lessonId: "flow-basics",
       minLevel: 2
     }
+  },
+  "filler-phrases-101": {
+    id: "filler-phrases-101",
+    title: "Filler Phrases 101",
+    description: "Learn essential filler phrases to maintain your flow",
+    level: 1,
+    totalXp: 30,
+    exercises: [
+      {
+        id: "fp-ex1",
+        type: "info_card",
+        question: "What are filler phrases?",
+        term: "Filler Phrases",
+        definition: "Short, versatile expressions that help maintain rhythm when freestyling and give you time to think of your next line",
+        xpReward: 5
+      },
+      {
+        id: "fp-ex2",
+        type: "info_card",
+        question: "Filler Phrase of the Day",
+        term: "You already know",
+        definition: "A confidence-boosting filler that works at the beginning or end of a bar",
+        xpReward: 5
+      },
+      {
+        id: "fp-ex3",
+        type: "multiple-choice",
+        question: "When should you use filler phrases?",
+        options: [
+          { id: "fp-opt1", text: "Never, they show weakness", isCorrect: false },
+          { id: "fp-opt2", text: "Sparingly, to maintain flow when needed", isCorrect: true },
+          { id: "fp-opt3", text: "Constantly, in every line", isCorrect: false }
+        ],
+        explanation: "Filler phrases are tools to help maintain flow, but shouldn't dominate your freestyle",
+        xpReward: 5
+      },
+      {
+        id: "fp-ex4",
+        type: "multiple-choice",
+        question: "Which of these is a common filler phrase?",
+        options: [
+          { id: "fp-opt4", text: "Listen to what I'm saying", isCorrect: true },
+          { id: "fp-opt5", text: "I don't know what to say next", isCorrect: false },
+          { id: "fp-opt6", text: "Sorry for the awkward pause", isCorrect: false }
+        ],
+        xpReward: 5
+      },
+      {
+        id: "fp-ex5",
+        type: "rhyme_match",
+        question: "Match these filler phrases with appropriate contexts",
+        pairs: [
+          { id: "fp-pair1", left: "Check it", right: "Starting a verse" },
+          { id: "fp-pair2", left: "That's how it goes", right: "Ending a verse" },
+          { id: "fp-pair3", left: "Coming through", right: "Mid-verse transition" }
+        ],
+        xpReward: 5
+      },
+      {
+        id: "fp-ex6",
+        type: "info_card",
+        question: "Your Freestyle Arsenal",
+        term: "You know what I'm saying",
+        definition: "A versatile filler that creates audience connection and buys thinking time",
+        xpReward: 5
+      }
+    ]
   }
 };
 
