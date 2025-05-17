@@ -1,0 +1,57 @@
+Perfect. Here’s a Replit AI Agent prompt crafted specifically for the first stage of your freestyle rap learning app. It gives Replit a clear, scoped task while allowing iterative expansion and leaves room for you (as product manager) to evaluate functionality and UX before adding complexity.
+
+⸻
+
+Prompt for Replit AI Agent (Stage 1 – MVP Framework)
+
+You are a senior mobile app developer.
+
+Your job is to help build the MVP foundation of a Duolingo-style app designed to teach and train freestyle rap through gamified microlearning.
+
+GOAL
+
+Start by creating a mobile-responsive web app (React + Tailwind preferred) with the following starter features:
+	1.	Login screen (username only for now)
+	2.	Home dashboard with:
+	•	Welcome message
+	•	XP bar (just a static value for now)
+	•	A “Start Lesson” button
+	3.	Lesson Module View that includes:
+	•	Title of the lesson (e.g. “Intro to Rhymes”)
+	•	Placeholder for instructions (e.g. “Match words that rhyme”)
+	•	Three fake questions for demo (can be simple multiple choice)
+	•	“Finish Lesson” button that routes back to dashboard and increases XP (mock logic only)
+	4.	Basic routing/navigation between login, dashboard, and lessons using React Router.
+	5.	Store user state in localStorage so XP and username persist on refresh.
+
+⸻
+
+Design Goals
+	•	Must feel fun and clean (bright colors, bold text)
+	•	Use placeholder data and static assets for now
+	•	Prioritize modular component structure for future expansion
+
+⸻
+
+After this stage:
+
+We’ll begin adding audio features (recording freestyles), AI feedback, and dynamic lesson generation — but only after the UI skeleton and gamification loop is functional.
+
+⸻
+
+Future Integration Targets (do not build yet):
+	•	Microphone input
+	•	AI scoring
+	•	Beat library
+	•	Adaptive learning paths
+	•	Leaderboards & freestyle battles
+
+⸻
+
+Tone
+
+Think: “Duolingo meets SoundCloud” — energetic, creative, and responsive.
+
+⸻
+
+Would you like a follow-up version of this prompt that includes feedback processing or bug fixing from screenshots you upload later?
