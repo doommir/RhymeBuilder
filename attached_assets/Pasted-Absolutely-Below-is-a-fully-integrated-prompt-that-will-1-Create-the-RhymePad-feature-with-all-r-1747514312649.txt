@@ -1,0 +1,93 @@
+Absolutely. Below is a fully integrated prompt that will:
+	1.	Create the RhymePad feature with all required functionality
+	2.	Include a mock lesson that automatically saves an entry into the user’s vault
+	3.	Maintain visual and UX consistency with the rest of the app
+
+⸻
+
+Full Prompt for Replit AI Agent: RhymePad + Mock Lesson Integration
+
+⸻
+
+Let’s build a new feature called RhymePad and connect it to a mock lesson to demonstrate auto-saving learning content.
+
+⸻
+
+Part 1: Add the RhymePad Feature
+
+Create a new component: RhymePad.tsx
+
+It should include:
+	•	A list of all saved RhymePad entries
+	•	A “+ Add Entry” button that opens a modal or form with:
+	•	content: Text input
+	•	tags: Comma-separated (e.g., “filler, 2-syllable”)
+	•	isFavorite: Toggle
+	•	Each entry displays:
+	•	Content
+	•	Tags
+	•	Star (toggle favorite)
+	•	Trash icon (delete)
+	•	Timestamp (formatted)
+
+Data Model:
+
+type RhymePadEntry = {
+  id: string;
+  content: string;
+  tags: string[];
+  addedFrom: 'manual' | 'lesson' | 'freestyle';
+  lessonId?: string;
+  dateCreated: string;
+  isFavorite: boolean;
+};
+
+Store this array as userRhymePad in localStorage or user context.
+
+Build a useRhymePad() hook that allows:
+	•	addEntry(entry: RhymePadEntry)
+	•	deleteEntry(id: string)
+	•	toggleFavorite(id: string)
+	•	getAllEntries(): RhymePadEntry[]
+
+Navigation:
+	•	Add a new “RhymePad” icon in the bottom nav bar
+	•	Label: My Flow Vault
+
+⸻
+
+Part 2: Connect to a Mock Lesson
+
+In the Intro to Rhymes lesson (or create a Filler Phrases 101 lesson), add this interaction:
+
+Exercise Type: info_card
+
+{
+  type: "info_card",
+  question: "Filler Phrase of the Day",
+  content: "You already know",
+  afterComplete: () => {
+    // On tap, auto-add this to RhymePad
+    addEntry({
+      id: uuid(),
+      content: "You already know",
+      tags: ["filler", "confidence"],
+      addedFrom: "lesson",
+      lessonId: "filler-phrases-101",
+      dateCreated: new Date().toISOString(),
+      isFavorite: false
+    });
+  }
+}
+
+Display a toast or animation when this is saved: “Added to your Flow Vault!”
+
+⸻
+
+Design Notes:
+	•	Make the RhymePad visual, bold, and hip-hop friendly.
+	•	Think of it like a digital notepad crossed with a songbook.
+
+⸻
+
+Let me know once this is built — then we’ll wire it up to Freestyle Practice Mode and XP bonuses.
