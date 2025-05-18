@@ -35,12 +35,17 @@ export default function RecallPhase({ exercises, onComplete }: RecallPhaseProps)
       setIsAnswerSubmitted(true);
       
       // Check if answer is correct
-      const isCorrect = 
-        selectedAnswer === currentExercise.type === 'multiple_choice' 
-          ? currentExercise.correctAnswer 
-          : currentExercise.type === 'fill_in_blank'
-            ? currentExercise.correctAnswer
-            : null;
+      let isCorrect = false;
+      
+      if (currentExercise.type === 'multiple_choice') {
+        const multipleChoiceExercise = currentExercise as import('@/lib/new-lesson-data').MultipleChoiceExercise;
+        isCorrect = selectedAnswer === multipleChoiceExercise.correctAnswer;
+      } else if (currentExercise.type === 'fill_in_blank') {
+        const fillInBlankExercise = currentExercise as import('@/lib/new-lesson-data').FillInBlankExercise;
+        isCorrect = selectedAnswer === fillInBlankExercise.correctAnswer;
+      } else if (currentExercise.type === 'info_card') {
+        isCorrect = true; // Info cards are always "correct"
+      }
       
       if (isCorrect) {
         // Add XP for correct answer
@@ -85,11 +90,8 @@ export default function RecallPhase({ exercises, onComplete }: RecallPhaseProps)
   
   // Render multiple choice exercise
   const renderMultipleChoice = () => {
-    const { question, options, correctAnswer } = currentExercise as { 
-      question: string,
-      options: string[],
-      correctAnswer: string
-    };
+    const multipleChoiceExercise = currentExercise as import('@/lib/new-lesson-data').MultipleChoiceExercise;
+    const { question, options, correctAnswer } = multipleChoiceExercise;
     
     return (
       <div className="mb-6">
@@ -116,13 +118,8 @@ export default function RecallPhase({ exercises, onComplete }: RecallPhaseProps)
   
   // Render fill in blank exercise
   const renderFillInBlank = () => {
-    const { question, content, options, blankIndex, correctAnswer } = currentExercise as {
-      question: string,
-      content: string,
-      options: string[],
-      blankIndex: number,
-      correctAnswer: string
-    };
+    const fillInBlankExercise = currentExercise as import('@/lib/new-lesson-data').FillInBlankExercise;
+    const { question, content, options, blankIndex, correctAnswer } = fillInBlankExercise;
     
     // Split content into parts before and after the blank
     const contentParts = content.split(' ');

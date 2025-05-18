@@ -8,6 +8,7 @@ import { useRhymePad } from "@/hooks/use-rhymepad";
 import BottomNavigation from "@/components/BottomNavigation";
 import DailyPrompt from "@/components/DailyPrompt";
 import { getAllLessons, isLessonUnlocked } from "@/lib/lesson-data";
+import { getAllLessonModules, isLessonModuleUnlocked } from "@/lib/new-lesson-data";
 
 // Define level-up thresholds
 const LEVEL_THRESHOLDS = [0, 50, 150, 300, 500];
@@ -48,6 +49,7 @@ export default function Dashboard() {
   const levelProgress = ((user.xp - prevLevelThreshold) / (nextLevelThreshold - prevLevelThreshold)) * 100;
 
   const allLessons = getAllLessons();
+  const allLessonModules = getAllLessonModules();
 
   return (
     <div className="min-h-screen pb-16 bg-background">
