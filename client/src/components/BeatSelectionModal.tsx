@@ -60,6 +60,7 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
+      audioRef.current = null;
     }
 
     // If clicking on currently previewing beat, stop preview
@@ -71,55 +72,90 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
     // Start new preview
     setPreviewingBeatId(beat.id);
     
-    try {
-      // Create a new audio element
-      const tempAudio = new Audio();
-      tempAudio.src = beat.fileUrl;
-      tempAudio.loop = true;
-      tempAudio.volume = 0.5;
+    // Create an HTML audio element in the DOM for better browser compatibility
+    const audioElement = document.createElement('audio');
+    audioElement.src = beat.fileUrl;
+    audioElement.loop = true;
+    audioElement.volume = 0.5;
+    audioElement.crossOrigin = "anonymous";
+    
+    // Add to DOM temporarily (helps with iOS/Safari)
+    document.body.appendChild(audioElement);
+    
+    // Store reference
+    audioRef.current = audioElement;
+    
+    // Add event listeners
+    audioElement.addEventListener('canplaythrough', () => {
+      // Play when ready
+      audioElement.play()
+        .then(() => {
+          console.log("Audio playback started successfully");
+        })
+        .catch(err => {
+          console.error("Error playing audio:", err);
+          
+          // Clean up
+          document.body.removeChild(audioElement);
+          audioRef.current = null;
+          setPreviewingBeatId(null);
+          
+          // Show toast with appropriate message
+          if (err.name === 'NotAllowedError') {
+            toast({
+              title: "Browser Autoplay Blocked",
+              description: "Try clicking the preview button again or just select the beat",
+              variant: "default"
+            });
+          } else {
+            toast({
+              title: "Beat Preview Issue",
+              description: "There was a problem with this beat. Try selecting it directly.",
+              variant: "destructive"
+            });
+          }
+        });
+    });
+    
+    // Handle errors
+    audioElement.addEventListener('error', () => {
+      console.error("Audio failed to load:", beat.fileUrl);
       
-      // Store reference
-      audioRef.current = tempAudio;
+      // Clean up
+      document.body.removeChild(audioElement);
+      audioRef.current = null;
+      setPreviewingBeatId(null);
       
-      // Try to play
-      const playPromise = tempAudio.play();
-      
-      // Modern browsers return a promise from play()
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Playback started successfully
-            console.log("Audio playback started successfully");
-          })
-          .catch(err => {
-            console.error("Error playing audio:", err);
-            
-            // Special handling for autoplay policy error
-            if (err.name === 'NotAllowedError') {
-              toast({
-                title: "Can't Autoplay Audio",
-                description: "Select the beat instead - audio will play when you start freestyle",
-                variant: "default"
-              });
-            } else {
-              toast({
-                title: "Audio Error",
-                description: "There was a problem playing this beat. Try another one.",
-                variant: "destructive"
-              });
-            }
-          });
+      toast({
+        title: "Beat Not Available",
+        description: "This beat couldn't be loaded. Please try another one.",
+        variant: "destructive"
+      });
+    });
+    
+    // Handle playback end
+    audioElement.addEventListener('ended', () => {
+      // Clean up when done (though we're looping, just in case)
+      if (audioRef.current === audioElement) {
+        document.body.removeChild(audioElement);
+        audioRef.current = null;
+        setPreviewingBeatId(null);
       }
-    } catch (err) {
-      console.error("Error setting up audio:", err);
-    }
+    });
   };
 
-  // Stop preview when dialog closes
+  // Stop preview when dialog closes and clean up
   const handleDialogClose = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
+      
+      // If the audio element was added to the DOM, remove it
+      if (document.body.contains(audioRef.current)) {
+        document.body.removeChild(audioRef.current);
+      }
+      
+      audioRef.current = null;
     }
     setPreviewingBeatId(null);
     onClose();
