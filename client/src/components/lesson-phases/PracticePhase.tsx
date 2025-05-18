@@ -727,15 +727,34 @@ export default function PracticePhase({
                           </div>
                         </div>
                         
-                        {/* Direct audio element with controls for maximum compatibility */}
-                        <audio 
-                          src={selectedBeat.fileUrl} 
-                          controls 
-                          className="w-full mb-2" 
-                          preload="auto"
-                        >
-                          Your browser does not support the audio element.
-                        </audio>
+                        {/* Simple button to play audio */}
+                        <div className="flex flex-col gap-2">
+                          <button 
+                            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                            onClick={() => {
+                              const audio = new Audio('/audio/graveyard-shift.mp3');
+                              audio.volume = 0.8;
+                              audio.play()
+                                .then(() => console.log("Audio playing successfully"))
+                                .catch(err => console.error("Error playing audio:", err));
+                            }}
+                          >
+                            Play Graveyard Shift Beat
+                          </button>
+                          
+                          <button 
+                            className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
+                            onClick={() => {
+                              const audio = new Audio('/audio/shadow-cipher.mp3');
+                              audio.volume = 0.8;
+                              audio.play()
+                                .then(() => console.log("Audio playing successfully"))
+                                .catch(err => console.error("Error playing audio:", err));
+                            }}
+                          >
+                            Play Shadow Cipher Beat
+                          </button>
+                        </div>
                       </div>
                       
                       <p className="text-xs text-gray-500 mb-2">
