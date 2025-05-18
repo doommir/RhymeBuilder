@@ -50,7 +50,7 @@ export default function CustomBeatPlayer({ beat, className = "" }: CustomBeatPla
       }
       
       // Then set new source
-      audioRef.current.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+      audioRef.current.src = beat.fileUrl;
       audioRef.current.load();
     }
   }, [beat]);
