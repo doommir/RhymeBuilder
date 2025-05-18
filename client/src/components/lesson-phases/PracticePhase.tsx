@@ -8,7 +8,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useRhymePad } from "@/hooks/use-rhymepad";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { blobToBase64 } from "@/lib/audioUtils";
-import { apiRequest } from "@/lib/queryClient";
 
 interface PracticePhaseProps {
   practiceBeatUrl: string;
@@ -21,23 +20,114 @@ export default function PracticePhase({
   lessonId,
   onComplete 
 }: PracticePhaseProps) {
+  // Recording states
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [recordingState, setRecordingState] = useState<'idle' | 'preparing' | 'recording' | 'processing'>('idle');
   const [transcription, setTranscription] = useState("");
   const [selectedLine, setSelectedLine] = useState("");
   const [allLines, setAllLines] = useState<string[]>([]);
-  const [beatPlaying, setBeatPlaying] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
+  // Audio states
+  const [beatPlaying, setBeatPlaying] = useState(false);
+  const [audioReady, setAudioReady] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [canRecord, setCanRecord] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  
+  // Refs
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const mediaRecorderRef = useRef<{
+    startRecording: () => void;
+    stopRecording: () => Promise<Blob>;
+  } | null>(null);
+  
+  // Hooks
   const { addEntry } = useRhymePad();
   const { toast } = useToast();
   
-  // Initialize audio element
+  // Initialize audio element and check microphone permissions
   useEffect(() => {
-    audioRef.current = new Audio(practiceBeatUrl);
-    audioRef.current.loop = true;
+    // Create audio element for the beat
+    const audio = new Audio(practiceBeatUrl);
+    audio.loop = true;
+    audio.volume = 0.8;
+    audioRef.current = audio;
+    
+    // Check if audio file is loaded
+    audio.addEventListener('canplaythrough', () => {
+      setAudioReady(true);
+    });
+    
+    // Simulate loading progress 
+    const loadingInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        const newValue = prev + 10;
+        if (newValue >= 100) {
+          clearInterval(loadingInterval);
+          return 100;
+        }
+        return newValue;
+      });
+    }, 300);
+    
+    // Check if browser supports recording
+    const checkMicrophonePermission = async () => {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setErrorMessage("Your browser doesn't support audio recording.");
+          return;
+        }
+        
+        // Set up the audio recording
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        let mediaRecorder: MediaRecorder | null = null;
+        let audioChunks: Blob[] = [];
+        
+        // Create the MediaRecorder
+        mediaRecorder = new MediaRecorder(stream);
+        
+        // Add data handler
+        mediaRecorder.addEventListener('dataavailable', (event) => {
+          audioChunks.push(event.data);
+        });
+        
+        // Define the recording controls
+        const startRecording = () => {
+          audioChunks = [];
+          mediaRecorder?.start();
+        };
+        
+        const stopRecording = (): Promise<Blob> => {
+          return new Promise((resolve) => {
+            mediaRecorder?.addEventListener('stop', () => {
+              const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+              resolve(audioBlob);
+            }, { once: true });
+            
+            mediaRecorder?.stop();
+          });
+        };
+        
+        // Store the controls for later use
+        mediaRecorderRef.current = { startRecording, stopRecording };
+        
+        // Close stream for now (we'll reopen when recording starts)
+        stream.getTracks().forEach(track => track.stop());
+        
+        setCanRecord(true);
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+        setErrorMessage("Couldn't access your microphone. Please check permissions.");
+        setCanRecord(false);
+      }
+    };
+    
+    checkMicrophonePermission();
     
     return () => {
+      clearInterval(loadingInterval);
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
@@ -67,52 +157,158 @@ export default function PracticePhase({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
   
-  // Start recording and beat
-  const handleStartRecording = () => {
-    setIsRecording(true);
-    setTranscription("");
-    setAllLines([]);
+  // Start the recording process with countdown
+  const startRecordingProcess = async () => {
+    if (!canRecord) {
+      toast({
+        title: "Recording Error",
+        description: "Microphone access required. Please check permissions.",
+        variant: "destructive"
+      });
+      return;
+    }
     
-    // Start the beat
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(error => {
-        console.error("Error playing audio:", error);
+    try {
+      // Reset states
+      setAllLines([]);
+      setTranscription("");
+      setSelectedLine("");
+      setErrorMessage(null);
+      setRecordingState('preparing');
+      
+      // Start countdown
+      setCountdown(3);
+      
+      // Countdown timer
+      const countdownInterval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(countdownInterval);
+            startActualRecording();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (error) {
+      console.error("Error starting recording process:", error);
+      setRecordingState('idle');
+      toast({
+        title: "Recording Error",
+        description: "Couldn't start recording. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  // Start the actual recording after countdown
+  const startActualRecording = async () => {
+    setIsRecording(true);
+    setRecordingState('recording');
+    
+    try {
+      // Start the beat
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        await audioRef.current.play();
+        setBeatPlaying(true);
+      }
+      
+      // Start recording audio
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.startRecording();
+        
+        // Auto-stop after 60 seconds to prevent very long recordings
+        setTimeout(() => {
+          if (isRecording) {
+            handleStopRecording();
+          }
+        }, 60000);
+      } else {
+        throw new Error("MediaRecorder not initialized");
+      }
+    } catch (error) {
+      console.error("Error starting recording:", error);
+      handleStopRecording();
+      toast({
+        title: "Recording Error",
+        description: "There was a problem recording your freestyle.",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  // Stop recording and process the audio
+  const handleStopRecording = async () => {
+    try {
+      setIsRecording(false);
+      setRecordingState('processing');
+      
+      // Stop the beat
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setBeatPlaying(false);
+      }
+      
+      // Get the recorded audio
+      if (mediaRecorderRef.current) {
+        const audioBlob = await mediaRecorderRef.current.stopRecording();
+        
+        // Convert to base64 for server
+        const base64Audio = await blobToBase64(audioBlob);
+        
+        // Send to server for transcription
+        const response = await fetch('/api/transcribe', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ audio: base64Audio }),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Transcription failed: ${response.statusText}`);
+        }
+        
+        const transcriptionResult = await response.json();
+        
+        if (transcriptionResult.success) {
+          setTranscription(transcriptionResult.transcription || '');
+          setAllLines(transcriptionResult.lines || []);
+          
+          toast({
+            title: "Freestyle Transcribed!",
+            description: "Your freestyle has been transcribed successfully."
+          });
+        } else {
+          throw new Error(transcriptionResult.message || 'Transcription failed');
+        }
+      }
+    } catch (error) {
+      console.error("Error processing recording:", error);
+      
+      // If transcription fails, use fallback (for testing only)
+      if (process.env.NODE_ENV === 'development') {
+        useSimulatedTranscription();
+      } else {
         toast({
-          title: "Audio Error",
-          description: "Couldn't play the beat. Please try again.",
+          title: "Transcription Error",
+          description: "Couldn't transcribe your freestyle. Please try again.",
           variant: "destructive"
         });
-      });
-      setBeatPlaying(true);
+      }
+    } finally {
+      setRecordingState('idle');
+      setRecordingTime(0);
     }
-    
-    // Simulate transcription for demo purposes
-    // In a real app, this would use the OpenAI Whisper API or similar
-    simulateTranscription();
   };
   
-  // Stop recording and beat
-  const handleStopRecording = () => {
-    setIsRecording(false);
-    setRecordingTime(0);
+  // Fallback function to simulate transcription (for development/testing)
+  const useSimulatedTranscription = () => {
+    console.log("Using simulated transcription (development only)");
     
-    // Stop the beat
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setBeatPlaying(false);
-    }
-    
-    toast({
-      title: "Freestyle Recorded!",
-      description: "Your freestyle has been transcribed below"
-    });
-  };
-  
-  // Simulate transcription for demo
-  const simulateTranscription = () => {
-    // Example freestyle lines that will appear gradually
-    const freestyleLines = [
+    // Example freestyle lines
+    const simulatedLines = [
       "I'm on the mic and I'm ready to flow",
       "Got these rhymes that'll make you wanna know",
       "How I keep it real with every single verse",
@@ -123,20 +319,14 @@ export default function PracticePhase({
       "Dropping knowledge and the absolute truth"
     ];
     
-    let currentIndex = 0;
+    // Update state with simulated data
+    setTranscription(simulatedLines.join('. '));
+    setAllLines(simulatedLines);
     
-    const addLine = () => {
-      if (currentIndex < freestyleLines.length && isRecording) {
-        const newLine = freestyleLines[currentIndex];
-        setAllLines(prev => [...prev, newLine]);
-        setTranscription(prev => prev ? `${prev}\n${newLine}` : newLine);
-        currentIndex++;
-        
-        setTimeout(addLine, Math.random() * 2000 + 1000);
-      }
-    };
-    
-    setTimeout(addLine, 1000);
+    toast({
+      title: "Freestyle Recorded!",
+      description: "Your freestyle has been transcribed below (simulated data)"
+    });
   };
   
   // Save selected line to Flow Vault
@@ -213,11 +403,33 @@ export default function PracticePhase({
             </p>
           )}
           
+          {/* Error message */}
+          {errorMessage && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+              <p className="flex items-center font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                Error
+              </p>
+              <p className="text-sm mt-1">{errorMessage}</p>
+            </div>
+          )}
+
+          {/* Loading and setup state */}
+          {!canRecord && !errorMessage && (
+            <div className="mb-6">
+              <p className="text-center text-gray-600 mb-2">Preparing audio recording...</p>
+              <Progress value={loadingProgress} className="w-full" />
+            </div>
+          )}
+          
           {/* Beat player controls */}
           <div className="flex justify-center mb-6">
-            {!isRecording ? (
+            {recordingState === 'idle' ? (
               <Button 
-                onClick={handleStartRecording}
+                onClick={startRecordingProcess}
+                disabled={!canRecord || !audioReady}
                 className="bg-green-500 hover:bg-green-600 text-white"
                 size="lg"
               >
@@ -226,7 +438,12 @@ export default function PracticePhase({
                 </svg>
                 {lessonId === "setup-punchline" ? "Start Practicing Punchlines" : "Start Practice"}
               </Button>
-            ) : (
+            ) : recordingState === 'preparing' ? (
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary mb-2">{countdown}</div>
+                <p className="text-gray-600">Get ready to freestyle...</p>
+              </div>
+            ) : recordingState === 'recording' ? (
               <Button 
                 onClick={handleStopRecording}
                 className="bg-red-500 hover:bg-red-600 text-white"
@@ -237,19 +454,30 @@ export default function PracticePhase({
                 </svg>
                 Stop Practice
               </Button>
+            ) : (
+              <div className="text-center">
+                <div className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Processing your freestyle...</span>
+                </div>
+              </div>
             )}
           </div>
           
           {/* Recording indicator */}
-          {isRecording && (
+          {recordingState === 'recording' && (
             <div className="flex items-center justify-center mb-6">
               <div className="animate-pulse bg-red-500 rounded-full h-3 w-3 mr-2"></div>
               <span className="text-red-500 font-medium">Recording: {formatTime(recordingTime)}</span>
+              <span className="ml-4 text-sm text-gray-500">(Max 60 seconds)</span>
             </div>
           )}
           
           {/* Transcription display */}
-          <div className="mb-4">
+          <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-lg font-semibold">
                 {lessonId === "setup-punchline" ? "Your Punchline Practice" : "Your Freestyle"}
@@ -257,15 +485,15 @@ export default function PracticePhase({
               
               {allLines.length > 0 && (
                 <Badge variant="outline" className="text-xs">
-                  Select any line to save it
+                  Tap any line to save it to Flow Vault
                 </Badge>
               )}
             </div>
             
             {allLines.length > 0 ? (
-              <div className="border rounded-lg p-4 bg-white min-h-[200px]">
+              <div className="border rounded-lg p-4 bg-white min-h-[200px] overflow-y-auto max-h-[400px]">
                 {lessonId === "setup-punchline" ? (
-                  // Group lines as setup/punchline pairs
+                  // Group lines as setup/punchline pairs for Setup & Punchline lesson
                   Array.from({ length: Math.ceil(allLines.length / 2) }).map((_, pairIndex) => {
                     const setupIndex = pairIndex * 2;
                     const punchlineIndex = setupIndex + 1;
@@ -292,6 +520,13 @@ export default function PracticePhase({
                           >
                             <Badge className="text-xs mr-2 bg-secondary text-white">PUNCH</Badge>
                             {punchline}
+                            
+                            {/* Bookmark icon for punchlines */}
+                            <span className="float-right text-gray-400 hover:text-secondary">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                              </svg>
+                            </span>
                           </div>
                         )}
                       </div>
@@ -303,18 +538,56 @@ export default function PracticePhase({
                     <div 
                       key={index}
                       onClick={() => handleLineSelect(line)}
-                      className={`py-1 px-2 rounded cursor-pointer transition-colors ${
+                      className={`py-2 px-3 rounded cursor-pointer transition-colors flex justify-between items-center ${
                         selectedLine === line ? 'bg-secondary/20 border-l-4 border-secondary' : 'hover:bg-gray-100'
                       }`}
                     >
-                      {line}
+                      <span>{line}</span>
+                      <button
+                        className="text-gray-400 hover:text-secondary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleLineSelect(line);
+                          handleSaveToVault();
+                        }}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                        </svg>
+                      </button>
                     </div>
                   ))
                 )}
               </div>
+            ) : recordingState === 'processing' ? (
+              <div className="border rounded-lg p-4 bg-gray-50 min-h-[200px] flex items-center justify-center">
+                <div className="text-center">
+                  <svg className="animate-spin h-8 w-8 text-secondary mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <p className="text-gray-500">Transcribing your freestyle...</p>
+                </div>
+              </div>
             ) : (
-              <div className="border rounded-lg p-4 bg-gray-50 min-h-[200px] flex items-center justify-center text-gray-400">
-                {isRecording ? "Waiting for your freestyle..." : "Start recording to see your freestyle here"}
+              <div className="border rounded-lg p-6 bg-gray-50 min-h-[200px] flex flex-col items-center justify-center text-center">
+                {recordingState === 'recording' ? (
+                  <div>
+                    <div className="animate-pulse text-red-500 mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-600">Recording your freestyle...</p>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-gray-500 mb-3">Start recording to see your freestyle transcription here</p>
+                    <p className="text-sm text-gray-400 max-w-md">
+                      After recording, your freestyle will be transcribed and you can save your best lines to your Flow Vault
+                    </p>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -329,8 +602,31 @@ export default function PracticePhase({
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
                 </svg>
-                {lessonId === "setup-punchline" ? "Save as Punchline to Flow Vault" : "Save to Flow Vault"}
+                {lessonId === "setup-punchline" ? "Save as Punchline to Flow Vault" : "Save Line to Flow Vault"}
               </Button>
+            </div>
+          )}
+          
+          {/* Summary statistics (shown after recording) */}
+          {allLines.length > 0 && (
+            <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <h4 className="font-semibold mb-2 text-gray-700">Freestyle Stats</h4>
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div>
+                  <div className="text-lg font-bold text-secondary">{allLines.length}</div>
+                  <div className="text-xs text-gray-500">Lines</div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-blue-500">{formatTime(recordingTime)}</div>
+                  <div className="text-xs text-gray-500">Duration</div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-green-500">
+                    {allLines.length > 0 ? Math.round((allLines.length / Math.max(recordingTime, 1)) * 60) : 0}
+                  </div>
+                  <div className="text-xs text-gray-500">Lines/Min</div>
+                </div>
+              </div>
             </div>
           )}
         </div>
