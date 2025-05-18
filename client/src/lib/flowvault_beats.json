@@ -4,57 +4,42 @@
     "title": "Mic Assassin",
     "bpm": 90,
     "vibe": "battle", 
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Mic%20Assassin%20-%20AI%20Music.mp3"
+    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Mic%20Assassin%20-%20AI%20Music.mp3"
   },
   {
     "id": "808-ambush",
     "title": "808 Ambush",
     "bpm": 95,
     "vibe": "trap",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/808%20Ambush%20-%20AI%20Music.mp3"
+    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/808%20Ambush%20-%20AI%20Music.mp3"
   },
   {
     "id": "bar-hop",
     "title": "Bar Hop",
     "bpm": 88,
     "vibe": "boom-bap",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Bar%20Hop%20-%20AI%20Music.mp3"
+    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Bar%20Hop%20-%20AI%20Music.mp3"
   },
   {
-    "id": "verbal-combat",
-    "title": "Verbal Combat",
-    "bpm": 90,
-    "vibe": "battle",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Mic%20Assassin%20-%20AI%20Music.mp3"
+    "id": "boogie-bars",
+    "title": "Boogie Bars",
+    "bpm": 92,
+    "vibe": "boom-bap",
+    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Boogie%20Bars%20-%20AI%20Music.mp3"
+  },
+  {
+    "id": "chrome-daydream",
+    "title": "Chrome Daydream",
+    "bpm": 75,
+    "vibe": "lofi",
+    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Chrome%20Daydream%20-%20AI%20Music.mp3"
   },
   {
     "id": "drip-code",
     "title": "Drip Code",
     "bpm": 140,
     "vibe": "trap",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Drip%20Code%20-%20AI%20Music.mp3"
-  },
-
-  {
-    "id": "midnight-scribbles",
-    "title": "Midnight Scribbles",
-    "bpm": 75,
-    "vibe": "lofi",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Midnight%20Scribbles%20-%20AI%20Music.mp3"
-  },
-  {
-    "id": "notebook-daydream",
-    "title": "Notebook Daydream",
-    "bpm": 78,
-    "vibe": "lofi",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Notebook%20Daydream%20-%20AI%20Music.mp3"
-  },
-  {
-    "id": "boom-bap-basics",
-    "title": "Boom Bap Basics",
-    "bpm": 92,
-    "vibe": "boom-bap",
-    "fileUrl": "https://replitusercontent.com/objects/FlowVaultBeats/Boogie%20Bars%20-%20AI%20Music.mp3"
+    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Drip%20Code%20-%20AI%20Music.mp3"
   },
   {
     "id": "golden-era",
