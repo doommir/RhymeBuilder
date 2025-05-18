@@ -712,8 +712,8 @@ export default function PracticePhase({
                             variant="outline" 
                             size="sm"
                             onClick={() => {
-                              // Create and play an audio element
-                              const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+                              // Create and play the selected beat
+                              const audio = new Audio(selectedBeat.fileUrl);
                               audio.play().catch(e => console.error("Error playing audio:", e));
                             }}
                             className="flex items-center gap-1"

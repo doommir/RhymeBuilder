@@ -9,7 +9,7 @@ export type Beat = {
   unlockLevel?: number;
 };
 
-const BUCKET_URL = "https://flowvaultbeat.replit.app";
+const BUCKET_URL = "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats";
 
 // Beat categories/vibes for filtering
 export const BEAT_VIBES = [
@@ -30,21 +30,21 @@ export const beats: Beat[] = [
     title: "Battle Bounce",
     bpm: 90,
     vibe: "battle",
-    fileUrl: `${BUCKET_URL}/battle-bounce.mp3`
+    fileUrl: `${BUCKET_URL}/Mic%20Assassin%20-%20AI%20Music.mp3`
   },
   {
     id: "lofi-waves",
     title: "Lofi Waves",
     bpm: 75,
     vibe: "lo-fi",
-    fileUrl: `${BUCKET_URL}/vinyl-memories.mp3`
+    fileUrl: `${BUCKET_URL}/Chrome%20Daydream%20-%20AI%20Music.mp3`
   },
   {
     id: "trap-heat",
     title: "Trap Heat",
     bpm: 140,
     vibe: "trap",
-    fileUrl: `${BUCKET_URL}/808-ambush.mp3`
+    fileUrl: `${BUCKET_URL}/808%20Ambush%20-%20AI%20Music.mp3`
   },
   {
     id: "classic-boom",
