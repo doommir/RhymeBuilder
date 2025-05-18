@@ -694,19 +694,19 @@ export default function PracticePhase({
                     
                     <div className="mb-3">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium">Test Beat Player</p>
+                        <p className="text-sm font-medium">{selectedBeat.title} Player</p>
                         <span className="text-xs text-gray-500">Click play to test</span>
                       </div>
-                      <iframe 
-                        width="100%" 
-                        height="60" 
-                        src="https://www.youtube.com/embed/5qap5aO4i9A?si=Y7YWmVx3qGHpfYwq" 
-                        title="Beat Player"
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      ></iframe>
+                      
+                      <audio
+                        src={selectedBeat.fileUrl}
+                        controls
+                        loop
+                        className="w-full"
+                      />
+                      
                       <p className="text-xs text-gray-500 mt-2">
-                        Note: Using a sample beat for testing. Your selected beat ({selectedBeat.title}) will be used during actual freestyle recording.
+                        Beat from your FlowVaultBeats collection. It will play while you freestyle.
                       </p>
                     </div>
                   </div>
