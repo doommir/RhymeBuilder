@@ -713,8 +713,25 @@ export default function PracticePhase({
                             size="sm"
                             onClick={() => {
                               // Create and play the selected beat
-                              const audio = new Audio(selectedBeat.fileUrl);
-                              audio.play().catch(e => console.error("Error playing audio:", e));
+                              if (audioRef.current) {
+                                // Use the existing audio element that's already set up
+                                audioRef.current.currentTime = 0;
+                                audioRef.current.play().catch(e => {
+                                  console.error("Error playing audio:", e);
+                                  toast({
+                                    title: "Playback Error",
+                                    description: "Could not play the beat. Please try again.",
+                                    variant: "destructive"
+                                  });
+                                });
+                                setBeatPlaying(true);
+                              } else {
+                                toast({
+                                  title: "Playback Error",
+                                  description: "Beat not loaded yet. Please wait a moment and try again.",
+                                  variant: "destructive"
+                                });
+                              }
                             }}
                             className="flex items-center gap-1"
                           >
