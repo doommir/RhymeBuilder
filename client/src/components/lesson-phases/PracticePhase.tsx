@@ -63,14 +63,14 @@ export default function PracticePhase({
   
   // Initialize default beat
   useEffect(() => {
-    // Set a default beat from our reliable working samples
+    // Set a default beat from our FlowVaultBeats
     if (!selectedBeat) {
       setSelectedBeat({
-        id: 'beat-sample-1',
-        title: 'Hip Hop Beat',
-        bpm: 92,
+        id: 'mic-assassin',
+        title: 'Mic Assassin',
+        bpm: 90,
         vibe: 'battle',
-        fileUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+        fileUrl: 'https://flowvaultbeat.replit.app/Mic%20Assassin%20-%20AI%20Music.mp3'
       });
     }
   }, [selectedBeat]);

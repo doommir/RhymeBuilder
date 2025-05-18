@@ -4,21 +4,21 @@
     "title": "Mic Assassin",
     "bpm": 90,
     "vibe": "battle", 
-    "fileUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    "fileUrl": "https://flowvaultbeat.replit.app/Mic%20Assassin%20-%20AI%20Music.mp3"
   },
   {
-    "id": "beat-sample-1",
-    "title": "Hip Hop Beat",
-    "bpm": 92,
-    "vibe": "battle",
-    "fileUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+    "id": "808-ambush",
+    "title": "808 Ambush",
+    "bpm": 95,
+    "vibe": "trap",
+    "fileUrl": "https://flowvaultbeat.replit.app/808%20Ambush%20-%20AI%20Music.mp3"
   },
   {
-    "id": "beat-sample-2", 
-    "title": "Freestyle Beat",
-    "bpm": 85,
-    "vibe": "chill",
-    "fileUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    "id": "bar-hop",
+    "title": "Bar Hop",
+    "bpm": 88,
+    "vibe": "boom-bap",
+    "fileUrl": "https://flowvaultbeat.replit.app/Bar%20Hop%20-%20AI%20Music.mp3"
   },
   {
     "id": "verbal-combat",
@@ -32,28 +32,22 @@
     "title": "Drip Code",
     "bpm": 140,
     "vibe": "trap",
-    "fileUrl": "https://flowvaultbeat.replit.app/drip-code.mp3"
+    "fileUrl": "https://flowvaultbeat.replit.app/Drip%20Code%20-%20AI%20Music.mp3"
   },
-  {
-    "id": "808-ambush",
-    "title": "808 Ambush",
-    "bpm": 140,
-    "vibe": "trap",
-    "fileUrl": "https://flowvaultbeat.replit.app/808-ambush.mp3"
-  },
+
   {
     "id": "midnight-scribbles",
     "title": "Midnight Scribbles",
     "bpm": 75,
     "vibe": "lofi",
-    "fileUrl": "https://flowvaultbeat.replit.app/midnight-scribbles.mp3"
+    "fileUrl": "https://flowvaultbeat.replit.app/Midnight%20Scribbles%20-%20AI%20Music.mp3"
   },
   {
     "id": "notebook-daydream",
     "title": "Notebook Daydream",
     "bpm": 78,
     "vibe": "lofi",
-    "fileUrl": "https://flowvaultbeat.replit.app/notebook-daydream.mp3"
+    "fileUrl": "https://flowvaultbeat.replit.app/Notebook%20Daydream%20-%20AI%20Music.mp3"
   },
   {
     "id": "boom-bap-basics",
