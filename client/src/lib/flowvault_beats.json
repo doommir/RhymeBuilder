@@ -1,5 +1,12 @@
 [
   {
+    "id": "suno-beat",
+    "title": "Suno Beat",
+    "bpm": 90,
+    "vibe": "trap",
+    "fileUrl": "https://suno.com/s/7TO00Um5KvlA33ST"
+  },
+  {
     "id": "graveyard-shift",
     "title": "Graveyard Shift",
     "bpm": 85,

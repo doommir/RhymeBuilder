@@ -727,59 +727,29 @@ export default function PracticePhase({
                           </div>
                         </div>
                         
-                        {/* Simple button to play audio */}
-                        <div className="flex flex-col gap-2">
-                          <button 
-                            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                            onClick={() => {
-                              const audio = new Audio('/api/audio/graveyard-shift.mp3');
-                              audio.volume = 0.8;
-                              audio.play()
-                                .then(() => {
-                                  console.log("Audio playing successfully");
-                                  toast({
-                                    title: "Beat Playing",
-                                    description: "Graveyard Shift beat is now playing",
-                                  });
-                                })
-                                .catch(err => {
-                                  console.error("Error playing audio:", err);
-                                  toast({
-                                    title: "Playback Error",
-                                    description: "Could not play the beat. " + err.message,
-                                    variant: "destructive"
-                                  });
-                                });
-                            }}
-                          >
-                            Play Graveyard Shift Beat
-                          </button>
-                          
-                          <button 
-                            className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
-                            onClick={() => {
-                              const audio = new Audio('/api/audio/shadow-cipher.mp3');
-                              audio.volume = 0.8;
-                              audio.play()
-                                .then(() => {
-                                  console.log("Audio playing successfully");
-                                  toast({
-                                    title: "Beat Playing",
-                                    description: "Shadow Cipher beat is now playing",
-                                  });
-                                })
-                                .catch(err => {
-                                  console.error("Error playing audio:", err);
-                                  toast({
-                                    title: "Playback Error",
-                                    description: "Could not play the beat. " + err.message,
-                                    variant: "destructive"
-                                  });
-                                });
-                            }}
-                          >
-                            Play Shadow Cipher Beat
-                          </button>
+                        {/* Import our new beat player component */}
+                        <div className="mb-4">
+                          <h3 className="text-sm font-medium mb-2">Try the Suno Beat:</h3>
+                          <iframe 
+                            src="https://suno.com/s/7TO00Um5KvlA33ST" 
+                            width="100%" 
+                            height="180" 
+                            frameBorder="0" 
+                            allow="autoplay; encrypted-media" 
+                            className="rounded-md border border-gray-200"
+                          ></iframe>
+                        </div>
+                        
+                        <div className="flex flex-col gap-3 mt-4">
+                          <p className="text-sm text-gray-700 font-medium">Your selected beat:</p>
+                          <iframe 
+                            src={`https://suno.com/s/7TO00Um5KvlA33ST`} 
+                            width="100%" 
+                            height="180" 
+                            frameBorder="0" 
+                            allow="autoplay; encrypted-media" 
+                            className="rounded-md border border-gray-200"
+                          ></iframe>
                         </div>
                       </div>
                       
