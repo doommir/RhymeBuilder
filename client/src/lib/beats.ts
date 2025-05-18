@@ -26,88 +26,74 @@ export const BEAT_VIBES = [
 // Beat library with metadata
 export const beats: Beat[] = [
   {
-    id: "battle-bounce",
-    title: "Battle Bounce",
+    id: "mic-assassin",
+    title: "Mic Assassin",
     bpm: 90,
     vibe: "battle",
     fileUrl: `${BUCKET_URL}/Mic%20Assassin%20-%20AI%20Music.mp3`
   },
   {
-    id: "lofi-waves",
-    title: "Lofi Waves",
-    bpm: 75,
-    vibe: "lo-fi",
-    fileUrl: `${BUCKET_URL}/Chrome%20Daydream%20-%20AI%20Music.mp3`
-  },
-  {
-    id: "trap-heat",
-    title: "Trap Heat",
-    bpm: 140,
+    id: "808-ambush",
+    title: "808 Ambush",
+    bpm: 95,
     vibe: "trap",
     fileUrl: `${BUCKET_URL}/808%20Ambush%20-%20AI%20Music.mp3`
   },
   {
-    id: "classic-boom",
-    title: "Classic Boom",
-    bpm: 92,
-    vibe: "boom-bap",
-    fileUrl: `${BUCKET_URL}/boom-bap-basics.mp3`
-  },
-  {
-    id: "chill-vibes",
-    title: "Chill Vibes",
-    bpm: 80,
-    vibe: "chill",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824564182_c2f26fd4bfd49f1e9fd4fda47017b40b.mp3"
-  },
-  {
-    id: "dark-matter",
-    title: "Dark Matter",
-    bpm: 95,
-    vibe: "dark",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824590726_e7e79a71d39c5c8499e91d13c89e171c.mp3"
-  },
-  {
-    id: "melodic-flow",
-    title: "Melodic Flow",
-    bpm: 85,
-    vibe: "melodic",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824617823_d5f8db49f8b2a0d3f8e9b7ed8f1ee12a.mp3"
-  },
-  {
-    id: "energy-boost",
-    title: "Energy Boost",
-    bpm: 105,
-    vibe: "energetic",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824643920_f4d5e2b8a8c0d162a2f57a12f6de0978.mp3"
-  },
-  {
-    id: "smooth-operator",
-    title: "Smooth Operator",
+    id: "bar-hop",
+    title: "Bar Hop",
     bpm: 88,
-    vibe: "chill",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824669123_a2c8f9e3b8d6a4f7e9c1b5d3a7f9e1c4.mp3"
-  },
-  {
-    id: "underground-pulse",
-    title: "Underground Pulse",
-    bpm: 93,
     vibe: "boom-bap",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824693246_b7a9c5e3d1f6a8c4b2e5d9f7a3c8e1b7.mp3"
+    fileUrl: `${BUCKET_URL}/Bar%20Hop%20-%20AI%20Music.mp3`
   },
   {
-    id: "cloud-nine",
-    title: "Cloud Nine",
+    id: "boogie-bars",
+    title: "Boogie Bars",
+    bpm: 90,
+    vibe: "boom-bap",
+    fileUrl: `${BUCKET_URL}/Boogie%20Bars%20-%20AI%20Music.mp3`
+  },
+  {
+    id: "chrome-daydream",
+    title: "Chrome Daydream",
+    bpm: 75,
+    vibe: "lofi",
+    fileUrl: `${BUCKET_URL}/Chrome%20Daydream%20-%20AI%20Music.mp3`
+  },
+  {
+    id: "cold-mirror",
+    title: "Cold Mirror",
     bpm: 70,
-    vibe: "lo-fi",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824714527_d8f2a6e9c7b5a3d1e6f9c2d8a4e6b9d3.mp3"
+    vibe: "chill",
+    fileUrl: `${BUCKET_URL}/Cold%20Mirror%20-%20AI%20Music.mp3`
   },
   {
-    id: "battle-arena",
-    title: "Battle Arena",
-    bpm: 95,
+    id: "concrete-jungle",
+    title: "Concrete Jungle",
+    bpm: 85,
+    vibe: "dark",
+    fileUrl: `${BUCKET_URL}/Concrete%20Jungle%20-%20AI%20Music.mp3`
+  },
+  {
+    id: "drip-code",
+    title: "Drip Code",
+    bpm: 140,
+    vibe: "trap",
+    fileUrl: `${BUCKET_URL}/Drip%20Code%20-%20AI%20Music.mp3`
+  },
+  {
+    id: "echoes-block",
+    title: "Echoes of the Block",
+    bpm: 88,
+    vibe: "boom-bap",
+    fileUrl: `${BUCKET_URL}/Echoes%20of%20the%20Block%20-%20AI%20Music.mp3`
+  },
+  {
+    id: "fist-flow",
+    title: "Fist of Flow",
+    bpm: 93,
     vibe: "battle",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824737863_f1e8d7c9a5b3e2d6f9a8c7e5d3b1a9c7.mp3"
+    fileUrl: `${BUCKET_URL}/Fist%20of%20Flow%20-%20AI%20Music.mp3`
   }
 ];
 
