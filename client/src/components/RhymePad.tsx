@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,7 @@ import { RhymePadEntry, useRhymePad } from "@/hooks/use-rhymepad";
 import { format } from "date-fns";
 
 export default function RhymePad() {
-  const { entries, addEntry, deleteEntry, toggleFavorite } = useRhymePad();
+  const { entries, addEntry, deleteEntry, toggleFavorite, getByTag } = useRhymePad();
   const { toast } = useToast();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newEntry, setNewEntry] = useState({
@@ -20,6 +20,20 @@ export default function RhymePad() {
     tags: "",
     isFavorite: false
   });
+  const [filteredEntries, setFilteredEntries] = useState(entries);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  
+  // Common tags in the app
+  const commonTags = ["filler", "multisyllable", "punchline", "confidence", "opener", "closer"];
+  
+  // Update filtered entries when entries change or filter changes
+  useEffect(() => {
+    if (!activeFilter) {
+      setFilteredEntries(entries);
+    } else {
+      setFilteredEntries(getByTag(activeFilter));
+    }
+  }, [entries, activeFilter, getByTag]);
 
   const handleAddEntry = () => {
     if (!newEntry.content.trim()) {
@@ -75,9 +89,20 @@ export default function RhymePad() {
     });
   };
 
+  // Handle filter selection
+  const handleFilterClick = (tag: string) => {
+    if (activeFilter === tag) {
+      // If clicking the active filter, clear it
+      setActiveFilter(null);
+    } else {
+      // Set new filter
+      setActiveFilter(tag);
+    }
+  };
+
   return (
     <div className="container mx-auto py-4 px-4 sm:px-6 max-w-3xl">
-      <header className="flex justify-between items-center mb-6">
+      <header className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold gradient-text">My Flow Vault</h1>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
@@ -129,6 +154,34 @@ export default function RhymePad() {
           </DialogContent>
         </Dialog>
       </header>
+      
+      {/* Tag filter buttons */}
+      <div className="mb-6">
+        <h2 className="text-sm font-medium text-gray-500 mb-2">Filter by tags:</h2>
+        <div className="flex flex-wrap gap-2">
+          {commonTags.map(tag => (
+            <button
+              key={tag}
+              onClick={() => handleFilterClick(tag)}
+              className={`px-3 py-1 rounded-full text-sm ${
+                activeFilter === tag 
+                  ? 'bg-secondary text-white' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              } transition-colors`}
+            >
+              #{tag}
+            </button>
+          ))}
+          {activeFilter && (
+            <button
+              onClick={() => setActiveFilter(null)}
+              className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700 hover:bg-red-200 transition-colors"
+            >
+              Clear filter
+            </button>
+          )}
+        </div>
+      </div>
 
       <div className="space-y-4">
         {entries.length === 0 ? (
@@ -144,8 +197,29 @@ export default function RhymePad() {
               Add Your First Entry
             </Button>
           </Card>
+        ) : filteredEntries.length === 0 && activeFilter ? (
+          <Card className="p-8 text-center">
+            <h2 className="text-xl font-semibold mb-2">No entries with tag: #{activeFilter}</h2>
+            <p className="text-muted-foreground mb-4">
+              Try a different tag or add new entries with this tag.
+            </p>
+            <div className="flex justify-center space-x-3">
+              <Button
+                onClick={() => setActiveFilter(null)}
+                variant="outline"
+              >
+                Clear Filter
+              </Button>
+              <Button
+                onClick={() => setIsAddModalOpen(true)}
+                className="btn-primary"
+              >
+                Add New Entry
+              </Button>
+            </div>
+          </Card>
         ) : (
-          entries.map((entry) => (
+          filteredEntries.map((entry) => (
             <Card key={entry.id} className="p-4 border-2 hover:border-secondary/50 transition-all">
               <div className="flex items-start justify-between mb-3">
                 <div className="font-medium">
