@@ -7,66 +7,63 @@ export type Beat = {
   fileUrl: string;
 };
 
-// For the current implementation, we'll use the default lesson beat for all beats
-// In a production app, we would have actual beat files for each one
-const DEFAULT_BEAT_URL = "https://assets.mixkit.co/music/preview/mixkit-hip-hop-02-621.mp3";
-
+// Use online audio sources for our beat library
 export const beats: Beat[] = [
   { 
     id: "battle-bounce", 
     title: "Battle Bounce", 
     bpm: 90, 
     vibe: "battle", 
-    fileUrl: DEFAULT_BEAT_URL 
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-hip-hop-02-621.mp3" 
   },
   { 
     id: "lofi-flow", 
     title: "Lofi Flow", 
     bpm: 80, 
     vibe: "laid-back", 
-    fileUrl: DEFAULT_BEAT_URL 
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-hazy-after-hours-132.mp3" 
   },
   { 
     id: "trap-snap", 
     title: "Trap Snap", 
     bpm: 140, 
     vibe: "hype", 
-    fileUrl: DEFAULT_BEAT_URL
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-hip-hop-fight-loop-688.mp3"
   },
   { 
     id: "boom-bap", 
     title: "Boom Bap Classic", 
     bpm: 93, 
     vibe: "classic", 
-    fileUrl: DEFAULT_BEAT_URL 
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-driving-ambition-32.mp3" 
   },
   { 
     id: "jazzy-vibe", 
     title: "Jazzy Vibes", 
     bpm: 85, 
     vibe: "chill", 
-    fileUrl: DEFAULT_BEAT_URL
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-jazzy-lounge-81.mp3"
   },
   { 
     id: "drill-time", 
     title: "Drill Time", 
     bpm: 145, 
     vibe: "hard", 
-    fileUrl: DEFAULT_BEAT_URL
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3"
   },
   { 
     id: "cloud-rap", 
     title: "Cloud Rapper", 
     bpm: 75, 
     vibe: "ethereal", 
-    fileUrl: DEFAULT_BEAT_URL
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3"
   },
   { 
     id: "underground", 
     title: "Underground Pulse", 
     bpm: 95, 
     vibe: "dark", 
-    fileUrl: DEFAULT_BEAT_URL
+    fileUrl: "https://assets.mixkit.co/music/preview/mixkit-hip-hop-radio-night-show-intro-2907.mp3"
   }
 ];
 
