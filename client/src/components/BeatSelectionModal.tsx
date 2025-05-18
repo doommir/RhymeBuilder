@@ -26,51 +26,24 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredBeats, setFilteredBeats] = useState<Beat[]>([]);
   const [activeVibe, setActiveVibe] = useState<string>("all");
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   
-  // Create an actual audio element in the DOM for better browser compatibility
-  const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const allBeats = getAllBeats();
   const vibeCategories = getUniqueVibes(allBeats);
   const { toast } = useToast();
   
-  // Initialize the audio element once
+  // Initialize audio functionality
   useEffect(() => {
-    // Create the audio element if it doesn't exist
-    if (!audioElementRef.current) {
-      const audioElement = document.createElement("audio");
-      audioElement.id = "beat-preview-audio";
-      audioElement.controls = false;
-      audioElement.volume = 0.5;
-      document.body.appendChild(audioElement);
-      audioElementRef.current = audioElement;
-      
-      // Add event listeners
-      audioElement.addEventListener("ended", () => {
-        setPreviewingBeatId(null);
-        setIsAudioPlaying(false);
-      });
-      
-      audioElement.addEventListener("error", () => {
-        setPreviewingBeatId(null);
-        setIsAudioPlaying(false);
-        toast({
-          title: "Audio Error",
-          description: "There was a problem playing this beat. Try another one.",
-          variant: "destructive"
-        });
-      });
-    }
+    // No visible audio element - we'll just handle the beat selection
+    // We'll let the PracticePhase component handle the actual audio playback
     
-    // Clean up on unmount
     return () => {
+      // Cleanup function
       if (audioElementRef.current) {
         audioElementRef.current.pause();
-        document.body.removeChild(audioElementRef.current);
         audioElementRef.current = null;
       }
     };
-  }, [toast]);
+  }, []);
 
   // Filter beats based on search query and selected vibe
   useEffect(() => {
@@ -94,60 +67,29 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
     setFilteredBeats(result);
   }, [allBeats, searchQuery, activeVibe]);
 
-  // Handle previewing a beat
+  // Handle previewing a beat - simplified approach
   const handlePreview = (beat: Beat) => {
-    // If we don't have an audio element, return
-    if (!audioElementRef.current) return;
+    // Simply highlight the beat - we won't try to play it
+    // This avoids issues with browser restrictions
     
-    // If clicking on currently previewing beat, stop preview
+    // If clicking on currently selected beat, deselect it
     if (previewingBeatId === beat.id) {
-      audioElementRef.current.pause();
-      audioElementRef.current.currentTime = 0;
       setPreviewingBeatId(null);
-      setIsAudioPlaying(false);
       return;
     }
     
-    // Stop current preview if any
-    audioElementRef.current.pause();
-    audioElementRef.current.currentTime = 0;
-    
-    // Set new beat source
-    audioElementRef.current.src = beat.fileUrl;
-    audioElementRef.current.loop = true;
-    
-    // Start new preview
+    // Mark as selected
     setPreviewingBeatId(beat.id);
     
-    // Try to play the audio (may be blocked by browser autoplay policy)
-    audioElementRef.current.play()
-      .then(() => {
-        console.log("Beat playback started successfully");
-        setIsAudioPlaying(true);
-      })
-      .catch(err => {
-        console.error("Error playing audio:", err);
-        
-        // Special handling for autoplay policy error
-        if (err.name === 'NotAllowedError') {
-          toast({
-            title: "Browser blocked autoplay",
-            description: "Please click Select to use this beat in your freestyle",
-            variant: "default"
-          });
-        }
-        
-        setPreviewingBeatId(null);
-        setIsAudioPlaying(false);
-      });
+    toast({
+      title: `${beat.title} selected`,
+      description: `${beat.bpm} BPM ${beat.vibe} beat - Click Select to use in freestyle`,
+      variant: "default"
+    });
   };
 
-  // Stop preview when dialog closes and clean up
+  // Handle dialog close
   const handleDialogClose = () => {
-    if (audioElementRef.current) {
-      audioElementRef.current.pause();
-      audioElementRef.current.currentTime = 0;
-    }
     setPreviewingBeatId(null);
     setIsAudioPlaying(false);
     onClose();
