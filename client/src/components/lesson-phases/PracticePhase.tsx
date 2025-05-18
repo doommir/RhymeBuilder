@@ -87,16 +87,34 @@ export default function PracticePhase({
   useEffect(() => {
     if (!selectedBeat) return;
     
-    // Create audio element for the beat
-    const audio = new Audio(selectedBeat.fileUrl);
-    audio.loop = true;
-    audio.volume = 0.8;
-    audioRef.current = audio;
+    console.log("Loading beat:", selectedBeat.title, "URL:", selectedBeat.fileUrl);
     
-    // Check if audio file is loaded
+    // Create audio element for the beat
+    const audio = new Audio();
+    
+    // Add event listeners before setting src to catch any errors
+    audio.addEventListener('error', (e) => {
+      console.error("Audio error:", e);
+      setErrorMessage(`Failed to load beat: ${e.message || 'Unknown error'}`);
+      toast({
+        title: "Beat Loading Error",
+        description: `Could not load "${selectedBeat.title}". Please try a different beat.`,
+        variant: "destructive"
+      });
+    });
+    
     audio.addEventListener('canplaythrough', () => {
+      console.log("Beat loaded successfully:", selectedBeat.title);
       setAudioReady(true);
     });
+    
+    // Now set the properties and src
+    audio.loop = true;
+    audio.volume = 0.8;
+    audio.src = selectedBeat.fileUrl;
+    
+    // Store the audio element reference
+    audioRef.current = audio;
     
     // Simulate loading progress 
     const loadingInterval = setInterval(() => {
@@ -699,7 +717,7 @@ export default function PracticePhase({
                       </div>
                       
                       <div className="bg-secondary/5 border border-secondary/20 p-3 rounded mb-3">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mb-3">
                           <div>
                             <p className="text-sm font-medium mb-1">You've selected: <span className="font-bold">{selectedBeat.title}</span></p>
                             <div className="flex gap-2">
@@ -707,44 +725,21 @@ export default function PracticePhase({
                               <span className="text-xs bg-secondary/10 px-2 py-0.5 rounded-full">{selectedBeat.vibe} style</span>
                             </div>
                           </div>
-                          
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => {
-                              // Create and play the selected beat
-                              if (audioRef.current) {
-                                // Use the existing audio element that's already set up
-                                audioRef.current.currentTime = 0;
-                                audioRef.current.play().catch(e => {
-                                  console.error("Error playing audio:", e);
-                                  toast({
-                                    title: "Playback Error",
-                                    description: "Could not play the beat. Please try again.",
-                                    variant: "destructive"
-                                  });
-                                });
-                                setBeatPlaying(true);
-                              } else {
-                                toast({
-                                  title: "Playback Error",
-                                  description: "Beat not loaded yet. Please wait a moment and try again.",
-                                  variant: "destructive"
-                                });
-                              }
-                            }}
-                            className="flex items-center gap-1"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                            Play Sample
-                          </Button>
                         </div>
+                        
+                        {/* Direct audio element with controls for maximum compatibility */}
+                        <audio 
+                          src={selectedBeat.fileUrl} 
+                          controls 
+                          className="w-full mb-2" 
+                          preload="auto"
+                        >
+                          Your browser does not support the audio element.
+                        </audio>
                       </div>
                       
                       <p className="text-xs text-gray-500 mb-2">
-                        Using sample beat for testing. Your selected beat will be used during recording.
+                        Use the audio player above to preview. The selected beat will be used during recording.
                       </p>
                     </div>
                   </div>
