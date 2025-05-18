@@ -11,6 +11,7 @@ import { blobToBase64 } from "@/lib/audioUtils";
 import { Beat, getBeatById } from "@/lib/beats-data";
 import BeatsLibrary from "@/components/BeatsLibrary";
 import FreestyleWordPrompt from "@/components/FreestyleWordPrompt";
+import SunoEmbedPlayer from "@/components/SunoEmbedPlayer";
 
 interface PracticePhaseProps {
   practiceBeatUrl: string;
@@ -727,22 +728,18 @@ export default function PracticePhase({
                           </div>
                         </div>
                         
-                        {/* Suno embed player */}
+                        {/* Suno embed player component */}
                         <div className="mb-4">
-                          <div className="p-4 border rounded-lg bg-gray-50">
-                            <h3 className="font-medium mb-3">Suno Beat Player</h3>
-                            
-                            <div className="beat-player-container">
-                              <iframe 
-                                src="https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305" 
-                                width="100%" 
-                                height="240" 
-                                style={{ border: "none", borderRadius: "8px" }}
-                              >
-                                <a href="https://suno.com/song/49ff37fd-80ae-4d27-9027-3dea40a5c305">Listen on Suno</a>
-                              </iframe>
-                            </div>
-                          </div>
+                          <SunoEmbedPlayer 
+                            initialBeatId="beat-1"
+                            onSelectBeat={(beatId) => {
+                              console.log("Selected beat:", beatId);
+                              toast({
+                                title: "Beat Selected",
+                                description: `Beat ${beatId} will be used for recording`,
+                              });
+                            }}
+                          />
                         </div>
                       </div>
                       

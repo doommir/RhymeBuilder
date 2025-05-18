@@ -1,0 +1,37 @@
+[
+  {
+    "id": "beat-1",
+    "title": "Beat 1",
+    "bpm": 90,
+    "vibe": "trap",
+    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+  },
+  {
+    "id": "beat-2",
+    "title": "Beat 2",
+    "bpm": 85,
+    "vibe": "boom-bap",
+    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+  },
+  {
+    "id": "beat-3",
+    "title": "Beat 3",
+    "bpm": 95,
+    "vibe": "chill",
+    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+  },
+  {
+    "id": "beat-4",
+    "title": "Beat 4",
+    "bpm": 100,
+    "vibe": "dark",
+    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+  },
+  {
+    "id": "beat-5",
+    "title": "Beat 5",
+    "bpm": 110,
+    "vibe": "energetic",
+    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+  }
+]
