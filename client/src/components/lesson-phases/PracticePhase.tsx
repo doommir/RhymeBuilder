@@ -727,29 +727,35 @@ export default function PracticePhase({
                           </div>
                         </div>
                         
-                        {/* Import our new beat player component */}
-                        <div className="mb-4">
-                          <h3 className="text-sm font-medium mb-2">Try the Suno Beat:</h3>
-                          <iframe 
-                            src="https://suno.com/s/7TO00Um5KvlA33ST" 
-                            width="100%" 
-                            height="180" 
-                            frameBorder="0" 
-                            allow="autoplay; encrypted-media" 
-                            className="rounded-md border border-gray-200"
-                          ></iframe>
-                        </div>
-                        
-                        <div className="flex flex-col gap-3 mt-4">
-                          <p className="text-sm text-gray-700 font-medium">Your selected beat:</p>
-                          <iframe 
-                            src={`https://suno.com/s/7TO00Um5KvlA33ST`} 
-                            width="100%" 
-                            height="180" 
-                            frameBorder="0" 
-                            allow="autoplay; encrypted-media" 
-                            className="rounded-md border border-gray-200"
-                          ></iframe>
+                        {/* Simple audio players with direct public audio files */}
+                        <div className="mb-4 space-y-4">
+                          <div className="p-4 border rounded-lg bg-gray-50">
+                            <div className="flex items-center justify-between mb-2">
+                              <h3 className="font-medium">Beat Sample 1</h3>
+                            </div>
+                            
+                            <audio 
+                              controls
+                              src="https://actions.google.com/sounds/v1/ambiences/daytime_factory_room.ogg" 
+                              className="w-full"
+                            >
+                              Your browser does not support the audio element.
+                            </audio>
+                          </div>
+                          
+                          <div className="p-4 border rounded-lg bg-gray-50">
+                            <div className="flex items-center justify-between mb-2">
+                              <h3 className="font-medium">Beat Sample 2</h3>
+                            </div>
+                            
+                            <audio 
+                              controls
+                              src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" 
+                              className="w-full"
+                            >
+                              Your browser does not support the audio element.
+                            </audio>
+                          </div>
                         </div>
                       </div>
                       
