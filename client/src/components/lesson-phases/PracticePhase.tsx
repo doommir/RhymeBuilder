@@ -698,15 +698,36 @@ export default function PracticePhase({
                         <span className="text-xs text-gray-500">Click play to test</span>
                       </div>
                       
-                      <audio
-                        src={selectedBeat.fileUrl}
-                        controls
-                        loop
-                        className="w-full"
-                      />
+                      <div className="bg-secondary/5 border border-secondary/20 p-3 rounded mb-3">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-medium mb-1">You've selected: <span className="font-bold">{selectedBeat.title}</span></p>
+                            <div className="flex gap-2">
+                              <span className="text-xs bg-secondary/10 px-2 py-0.5 rounded-full">{selectedBeat.bpm} BPM</span>
+                              <span className="text-xs bg-secondary/10 px-2 py-0.5 rounded-full">{selectedBeat.vibe} style</span>
+                            </div>
+                          </div>
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => {
+                              // Create and play an audio element
+                              const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+                              audio.play().catch(e => console.error("Error playing audio:", e));
+                            }}
+                            className="flex items-center gap-1"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Play Sample
+                          </Button>
+                        </div>
+                      </div>
                       
-                      <p className="text-xs text-gray-500 mt-2">
-                        Beat from your FlowVaultBeats collection. It will play while you freestyle.
+                      <p className="text-xs text-gray-500 mb-2">
+                        Using sample beat for testing. Your selected beat will be used during recording.
                       </p>
                     </div>
                   </div>
