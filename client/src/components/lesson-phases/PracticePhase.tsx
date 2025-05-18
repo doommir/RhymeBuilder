@@ -729,7 +729,7 @@ export default function PracticePhase({
                         
                         {/* Direct audio element with controls for maximum compatibility */}
                         <audio 
-                          src={selectedBeat.fileUrl} 
+                          src={"/audio/mic-assassin.mp3"} 
                           controls 
                           className="w-full mb-2" 
                           preload="auto"
