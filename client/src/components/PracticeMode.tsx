@@ -109,8 +109,7 @@ export default function PracticeMode() {
       // Show XP toast
       toast({
         title: "Vault Phrase Used! +5 XP",
-        description: `"${entry.content.substring(0, 20)}${entry.content.length > 20 ? '...' : ''}"`,
-        variant: "success"
+        description: `"${entry.content.substring(0, 20)}${entry.content.length > 20 ? '...' : ''}"`
       });
     }
     

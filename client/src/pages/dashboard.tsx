@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useUser } from "@/hooks/use-user";
+import { useRhymePad } from "@/hooks/use-rhymepad";
 import BottomNavigation from "@/components/BottomNavigation";
+import DailyPrompt from "@/components/DailyPrompt";
 import { getAllLessons, isLessonUnlocked } from "@/lib/lesson-data";
 
 // Define level-up thresholds
@@ -12,7 +14,9 @@ const LEVEL_THRESHOLDS = [0, 50, 150, 300, 500];
 
 export default function Dashboard() {
   const { user, isLoading } = useUser();
+  const { entries } = useRhymePad();
   const [, setLocation] = useLocation();
+  const [showDailyPrompt, setShowDailyPrompt] = useState(entries.length > 0);
 
   // If no user is logged in, check localStorage before redirecting
   useEffect(() => {
@@ -47,6 +51,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen pb-16 bg-background">
+      {/* Show daily prompt if user has vault entries */}
+      {showDailyPrompt && <DailyPrompt onDismiss={() => setShowDailyPrompt(false)} />}
+      
       <header className="bg-white shadow-sm">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center">

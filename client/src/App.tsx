@@ -8,6 +8,7 @@ import Login from "@/pages/login";
 import Dashboard from "@/pages/dashboard";
 import Lesson from "@/pages/lesson";
 import RhymePadPage from "@/pages/rhymepad";
+import PracticePage from "@/pages/practice";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/lesson/:id" component={Lesson} />
       <Route path="/rhymepad" component={RhymePadPage} />
+      <Route path="/practice" component={PracticePage} />
       <Route component={NotFound} />
     </Switch>
   );
