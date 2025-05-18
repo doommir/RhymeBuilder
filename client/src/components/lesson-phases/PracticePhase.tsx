@@ -63,14 +63,14 @@ export default function PracticePhase({
   
   // Initialize default beat
   useEffect(() => {
-    // Set a default beat from our FlowVaultBeats
+    // Set a default beat from our local audio files
     if (!selectedBeat) {
       setSelectedBeat({
-        id: 'mic-assassin',
-        title: 'Mic Assassin',
-        bpm: 90,
-        vibe: 'battle',
-        fileUrl: 'https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/mic-assassin.mp3'
+        id: 'graveyard-shift',
+        title: 'Graveyard Shift',
+        bpm: 85,
+        vibe: 'dark',
+        fileUrl: '/audio/graveyard-shift.mp3'
       });
     }
   }, [selectedBeat]);
@@ -729,7 +729,7 @@ export default function PracticePhase({
                         
                         {/* Direct audio element with controls for maximum compatibility */}
                         <audio 
-                          src={"/audio/mic-assassin.mp3"} 
+                          src={selectedBeat.fileUrl} 
                           controls 
                           className="w-full mb-2" 
                           preload="auto"

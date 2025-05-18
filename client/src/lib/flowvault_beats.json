@@ -1,86 +1,16 @@
 [
   {
-    "id": "mic-assassin",
-    "title": "Mic Assassin",
-    "bpm": 90,
-    "vibe": "battle", 
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/mic-assassin.mp3"
-  },
-  {
-    "id": "808-ambush",
-    "title": "808 Ambush",
-    "bpm": 95,
-    "vibe": "trap",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/808-ambush.mp3"
-  },
-  {
-    "id": "bar-hop",
-    "title": "Bar Hop",
-    "bpm": 88,
-    "vibe": "boom-bap",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/bar-hop.mp3"
-  },
-  {
-    "id": "boogie-bars",
-    "title": "Boogie Bars",
-    "bpm": 92,
-    "vibe": "boom-bap",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/boogie-bars.mp3"
-  },
-  {
-    "id": "chrome-daydream",
-    "title": "Chrome Daydream",
-    "bpm": 75,
-    "vibe": "lofi",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/chrome-daydream.mp3"
-  },
-  {
-    "id": "drip-code",
-    "title": "Drip Code",
-    "bpm": 140,
-    "vibe": "trap",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/drip-code.mp3"
-  },
-  {
-    "id": "golden-era",
-    "title": "Golden Era",
-    "bpm": 94,
-    "vibe": "boom-bap",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/golden-era.mp3"
-  },
-  {
-    "id": "cloud-level",
-    "title": "Cloud Level",
-    "bpm": 70,
-    "vibe": "chill",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/cloud-level.mp3"
-  },
-  {
-    "id": "golden-hour",
-    "title": "Golden Hour Freestyle",
-    "bpm": 82,
-    "vibe": "chill",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Golden%20Hour%20Freestyle.mp3"
-  },
-  {
     "id": "graveyard-shift",
     "title": "Graveyard Shift",
     "bpm": 85,
     "vibe": "dark",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/graveyard-shift.mp3"
+    "fileUrl": "/audio/graveyard-shift.mp3"
   },
   {
-    "id": "infinite-lexicon",
-    "title": "Infinite Lexicon",
+    "id": "shadow-cipher",
+    "title": "Shadow Cipher",
     "bpm": 90,
     "vibe": "battle",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/infinite-lexicon.mp3"
-  },
-  {
-    "id": "orbit-freestyle",
-    "title": "Orbit Freestyle",
-    "bpm": 125,
-    "vibe": "energetic",
-    "fileUrl": "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Orbit%20Freestyle.mp3"
+    "fileUrl": "/audio/shadow-cipher.mp3"
   }
 ]
