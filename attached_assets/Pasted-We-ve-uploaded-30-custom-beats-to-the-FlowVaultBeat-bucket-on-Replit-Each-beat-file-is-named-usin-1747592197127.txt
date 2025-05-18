@@ -1,0 +1,78 @@
+We’ve uploaded 30 custom beats to the `FlowVaultBeat` bucket on Replit. Each beat file is named using **kebab-case** and ends in `.mp3` (e.g. `drip-code.mp3`, `mic-assassin.mp3`).
+
+---
+
+## 🛠 PART 1: Create the Beat Library
+
+1. Create a new file in the project called `flowvault_beats.json`
+2. Paste the following JSON inside:
+
+```json
+[
+  {
+    "id": "mic-assassin",
+    "title": "Mic Assassin",
+    "bpm": 90,
+    "vibe": "battle",
+    "fileUrl": "https://flowvaultbeat.replit.app/mic-assassin.mp3"
+  },
+  {
+    "id": "verbal-combat",
+    "title": "Verbal Combat",
+    "bpm": 90,
+    "vibe": "battle",
+    "fileUrl": "https://flowvaultbeat.replit.app/verbal-combat.mp3"
+  },
+  {
+    "id": "drip-code",
+    "title": "Drip Code",
+    "bpm": 140,
+    "vibe": "trap",
+    "fileUrl": "https://flowvaultbeat.replit.app/drip-code.mp3"
+  },
+  {
+    "id": "808-ambush",
+    "title": "808 Ambush",
+    "bpm": 140,
+    "vibe": "trap",
+    "fileUrl": "https://flowvaultbeat.replit.app/808-ambush.mp3"
+  },
+  {
+    "id": "midnight-scribbles",
+    "title": "Midnight Scribbles",
+    "bpm": 75,
+    "vibe": "lofi",
+    "fileUrl": "https://flowvaultbeat.replit.app/midnight-scribbles.mp3"
+  },
+  {
+    "id": "notebook-daydream",
+    "title": "Notebook Daydream",
+    "bpm": 78,
+    "vibe": "lofi",
+    "fileUrl": "https://flowvaultbeat.replit.app/notebook-daydream.mp3"
+  }
+  // Add remaining 24 beats here with matching kebab-case filenames
+]
+```
+
+---
+
+## 🛠 PART 2: Use Beat Library in Practice Phase
+
+1. Load the `flowvault_beats.json` dynamically in the app
+2. Add a **Beat Selector screen** before the user starts freestyle practice
+3. For each beat, show:
+   - `title`
+   - `bpm`
+   - `vibe`
+   - Preview button (plays audio)
+   - Select button (loads the beat into the practice session)
+
+4. On select:
+   - Start the practice session
+   - Load the selected beat into the `<audio>` player
+   - Transcribe using Whisper as the user raps over it
+
+---
+
+Let me know once this is connected — next we’ll add filtering, tags, and unlockable beat packs.
