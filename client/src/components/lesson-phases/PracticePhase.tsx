@@ -63,17 +63,17 @@ export default function PracticePhase({
   
   // Initialize default beat
   useEffect(() => {
-    // If a beat is provided from the lesson, use it as the default
-    if (practiceBeatUrl && !selectedBeat) {
+    // Set a default beat from our reliable working samples
+    if (!selectedBeat) {
       setSelectedBeat({
-        id: 'default-beat',
-        title: lessonId === 'setup-punchline' ? 'Battle Bounce' : 'Practice Beat',
-        bpm: 90,
-        vibe: lessonId === 'setup-punchline' ? 'battle' : 'laid-back',
-        fileUrl: practiceBeatUrl
+        id: 'beat-sample-1',
+        title: 'Hip Hop Beat',
+        bpm: 92,
+        vibe: 'battle',
+        fileUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
       });
     }
-  }, [practiceBeatUrl, lessonId, selectedBeat]);
+  }, [selectedBeat]);
   
   // Open beat selection on initial load
   useEffect(() => {
