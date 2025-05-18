@@ -197,6 +197,19 @@ export default function BeatsLibrary({ isOpen, onClose, onSelectBeat }: BeatsLib
           </DialogDescription>
         </DialogHeader>
 
+        {/* Test Audio Player */}
+        <div className="mb-6 p-3 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="text-sm font-medium mb-2">Beat Test Player</div>
+          <audio 
+            src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+            controls 
+            className="w-full" 
+          />
+          <p className="text-xs text-gray-500 mt-2">
+            If you can play this test audio, your browser supports audio playback. Actual beat will be loaded when you select one.
+          </p>
+        </div>
+
         {/* Search and Filter Controls */}
         <div className="mb-4 space-y-4">
           <Input

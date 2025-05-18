@@ -649,6 +649,48 @@ export default function PracticePhase({
                 </p>
               )}
               
+              {/* Beat Player (visible for better user experience) */}
+              {selectedBeat && (
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-300">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-medium text-gray-700">Current Beat: {selectedBeat.title}</h3>
+                    <Badge className={`text-white ${
+                      selectedBeat.vibe === 'battle' ? 'bg-red-500' : 
+                      selectedBeat.vibe === 'lofi' ? 'bg-blue-500' :
+                      selectedBeat.vibe === 'trap' ? 'bg-orange-500' :
+                      selectedBeat.vibe === 'boom-bap' ? 'bg-purple-600' :
+                      selectedBeat.vibe === 'chill' ? 'bg-green-500' :
+                      selectedBeat.vibe === 'melodic' ? 'bg-pink-500' :
+                      selectedBeat.vibe === 'energetic' ? 'bg-yellow-600' :
+                      'bg-gray-500'
+                    }`}>
+                      {selectedBeat.vibe} - {selectedBeat.bpm} BPM
+                    </Badge>
+                  </div>
+                  
+                  <audio 
+                    id="practice-beat-player"
+                    src={selectedBeat.fileUrl} 
+                    controls
+                    loop
+                    className="w-full" 
+                  />
+                  
+                  <div className="mt-2 flex justify-between items-center">
+                    <div className="text-xs text-gray-500">
+                      This beat will play while you freestyle. Press play to test it.
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={handleOpenBeatSelection}
+                    >
+                      Change Beat
+                    </Button>
+                  </div>
+                </div>
+              )}
+            
               {/* Grid layout for word prompts and recording area */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Word prompts sidebar */}
