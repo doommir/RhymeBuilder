@@ -727,34 +727,21 @@ export default function PracticePhase({
                           </div>
                         </div>
                         
-                        {/* Simple audio players with direct public audio files */}
-                        <div className="mb-4 space-y-4">
+                        {/* Suno embed player */}
+                        <div className="mb-4">
                           <div className="p-4 border rounded-lg bg-gray-50">
-                            <div className="flex items-center justify-between mb-2">
-                              <h3 className="font-medium">Beat Sample 1</h3>
-                            </div>
+                            <h3 className="font-medium mb-3">Suno Beat Player</h3>
                             
-                            <audio 
-                              controls
-                              src="https://actions.google.com/sounds/v1/ambiences/daytime_factory_room.ogg" 
-                              className="w-full"
-                            >
-                              Your browser does not support the audio element.
-                            </audio>
-                          </div>
-                          
-                          <div className="p-4 border rounded-lg bg-gray-50">
-                            <div className="flex items-center justify-between mb-2">
-                              <h3 className="font-medium">Beat Sample 2</h3>
+                            <div className="beat-player-container">
+                              <iframe 
+                                src="https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305" 
+                                width="100%" 
+                                height="240" 
+                                style={{ border: "none", borderRadius: "8px" }}
+                              >
+                                <a href="https://suno.com/song/49ff37fd-80ae-4d27-9027-3dea40a5c305">Listen on Suno</a>
+                              </iframe>
                             </div>
-                            
-                            <audio 
-                              controls
-                              src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" 
-                              className="w-full"
-                            >
-                              Your browser does not support the audio element.
-                            </audio>
                           </div>
                         </div>
                       </div>
