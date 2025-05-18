@@ -18,7 +18,7 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
   const beats = getAllBeats();
   const { toast } = useToast();
 
-  // Handle previewing a beat
+  // Handle previewing a beat - simpler approach
   const handlePreview = (beat: Beat) => {
     // Stop current preview if there is one
     if (audioRef.current) {
@@ -34,28 +34,51 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
 
     // Start new preview
     setPreviewingBeatId(beat.id);
+    
     try {
-      // Create a new audio element
-      audioRef.current = new Audio(beat.fileUrl);
-      // Set up audio properties
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
+      // Create a new audio element with simpler approach
+      const tempAudio = new Audio();
+      tempAudio.src = beat.fileUrl;
+      tempAudio.loop = true;
+      tempAudio.volume = 0.5;
       
-      // Play the audio
-      audioRef.current.play()
-        .catch(err => {
-          console.error("Error playing audio:", err);
-          // Notify user about playback issue
-          toast({
-            title: "Playback Issue",
-            description: "Try interacting with the page first before playing beats.",
-            variant: "destructive"
+      // Store reference
+      audioRef.current = tempAudio;
+      
+      // Try to play
+      const playPromise = tempAudio.play();
+      
+      // Modern browsers return a promise from play()
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Playback started successfully
+            console.log("Audio playback started successfully");
+          })
+          .catch(err => {
+            console.error("Error playing audio:", err);
+            
+            // Special handling for autoplay policy error
+            if (err.name === 'NotAllowedError') {
+              toast({
+                title: "Can't Autoplay Audio",
+                description: "Select the beat instead - audio will play when you start freestyle",
+                variant: "default"
+              });
+            } else {
+              toast({
+                title: "Audio Error",
+                description: "There was a problem playing this beat. Try another one.",
+                variant: "destructive"
+              });
+            }
+            
+            // Keep the beat selected, even if we can't preview it
+            // User can still select it for the freestyle session
           });
-          setPreviewingBeatId(null);
-        });
+      }
     } catch (err) {
       console.error("Error setting up audio:", err);
-      setPreviewingBeatId(null);
     }
   };
 

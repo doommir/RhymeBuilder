@@ -350,17 +350,81 @@ export default function PracticePhase({
   const useSimulatedTranscription = () => {
     console.log("Using simulated transcription (development only)");
     
-    // Example freestyle lines
-    const simulatedLines = [
-      "I'm on the mic and I'm ready to flow",
-      "Got these rhymes that'll make you wanna know",
-      "How I keep it real with every single verse",
-      "Flowing smooth like water, never rehearsed",
-      "You already know how I bring the heat",
-      "Every single time I step on the beat",
-      "This is how we do it when we in the booth",
-      "Dropping knowledge and the absolute truth"
-    ];
+    // Get vibe-specific transcription if a beat is selected
+    let simulatedLines: string[];
+    
+    if (selectedBeat) {
+      // Different transcriptions based on beat vibe
+      const linesByVibe: Record<string, string[]> = {
+        'battle': [
+          "Coming with the heat, my rhymes are elite",
+          "Knock you off your feet, this victory's sweet",
+          "Lyrics hit hard like concrete on the street",
+          "Flow is too strong, you're facing defeat",
+          "I'm bringing the pain, you feel the strain",
+          "My words hit like rain, driving you insane",
+          "In this lyrical game, I stake my claim",
+          "When I'm done with this track, nothing's the same"
+        ],
+        
+        'laid-back': [
+          "Chillin' in the moment, vibes are flowing smooth",
+          "Like a lazy river, my words slowly move",
+          "Laying down these rhymes with nothing to prove",
+          "Staying in the pocket, finding my groove",
+          "Easy like Sunday, mind clear and free",
+          "Flowing with the beat, naturally",
+          "No need to rush, just letting it be",
+          "This is how the music flows through me"
+        ],
+        
+        'hype': [
+          "Energy rising, can't nobody stop this",
+          "Turning up the volume, flow is supersonic",
+          "Bouncing off the walls, my style's hypnotic",
+          "Crowd going crazy, atmosphere is atomic",
+          "Level up, level up, taking it higher",
+          "Heart beating fast like I'm on fire",
+          "Can't slow down, momentum's getting dire",
+          "This beat is all that I require"
+        ],
+        
+        'classic': [
+          "Back to the essence, keeping it real",
+          "Old school flavor that you can feel",
+          "Boom bap rhythm makes my soul heal",
+          "Timeless beats and rhymes, that's the deal",
+          "Respecting the art from day one",
+          "Paying homage to those before us who've done",
+          "Creating a legacy that's just begun",
+          "Classic style till the day is done"
+        ]
+      };
+      
+      // Get lines based on vibe or use default
+      simulatedLines = linesByVibe[selectedBeat.vibe] || [
+        "Flowing with the rhythm, following the beat",
+        "Finding the pocket, making it complete",
+        "Freestyle flowing, creating as I go",
+        "Building up momentum, letting ideas flow",
+        "Stacking words together, watch my style grow",
+        "Rhyming and timing, putting on a show",
+        "This is how we flow when we're in the zone",
+        "Each word connecting like I've always known"
+      ];
+    } else {
+      // Default lines if no beat is selected
+      simulatedLines = [
+        "I'm on the mic and I'm ready to flow",
+        "Got these rhymes that'll make you wanna know",
+        "How I keep it real with every single verse",
+        "Flowing smooth like water, never rehearsed",
+        "You already know how I bring the heat",
+        "Every single time I step on the beat",
+        "This is how we do it when we in the booth",
+        "Dropping knowledge and the absolute truth"
+      ];
+    }
     
     // Update state with simulated data
     setTranscription(simulatedLines.join('. '));
