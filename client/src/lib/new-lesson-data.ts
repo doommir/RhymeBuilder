@@ -71,12 +71,12 @@ const lessonModules: Record<string, LessonModule> = {
     level: 1,
     totalXp: 25,
     readingText: "One of the most important techniques in freestyle and battle rap is the setup + punchline combo.\n\nThe **setup** creates context — it may sound ordinary, but it leads the listener down a path.\nThe **punchline** then delivers the surprise — a joke, a threat, or a clever wordplay.\n\nThese often happen in **2-bar pairs**:\n- **Bar 1** = Setup\n- **Bar 2** = Punchline\n\nA master of this structure was **Big L**, one of Harlem's finest.\nHe was known for setting up calm, chill lines before dropping brutal or hilarious punches.\n\nExample:\n*\"Ask Beavis, I get nothing but-head\"*\n\nThe listener doesn't expect the wordplay flip until the final moment. That's the punch.\n\nBy learning to write with structure, you build tension — and deliver satisfaction.",
-    videoUrl: "https://www.youtube.com/embed/qggxTtnKTMo", // Big L & Jay-Z Freestyle
+    videoUrl: "https://www.youtube.com/embed/rKmRLcO74YQ", // Big L - '98 Freestyle on Hot 97
     observationChecklist: [
-      "What line sets up the punch?",
-      "Is the punch humorous, threatening, or clever?",
-      "How does Big L use calm delivery to build up tension?",
-      "Which punchline made the crowd react most?"
+      "Notice how each punchline has a clear setup line before it",
+      "Listen for the crowd reactions after his best punchlines",
+      "Watch how Big L maintains the same delivery style throughout",
+      "Identify wordplay techniques like double-meanings and metaphors"
     ],
     practiceBeatUrl: "/beats/battle-bounce.mp3", 
     recallExercises: [
