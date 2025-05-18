@@ -58,23 +58,90 @@ export default function BeatsLibrary({ isOpen, onClose, onSelectBeat }: BeatsLib
     setFilteredBeats(result);
   }, [allBeats, searchQuery, activeVibe]);
 
-  // Handle previewing a beat - simplified approach
+  // Handle previewing a beat
   const handlePreview = (beat: Beat) => {
-    // If clicking on currently selected beat, deselect it
-    if (previewingBeatId === beat.id) {
-      setPreviewingBeatId(null);
-      return;
+    // We'll try to preview the beat with an audio element
+    try {
+      // If clicking on currently previewing beat, stop preview
+      if (previewingBeatId === beat.id) {
+        // Find any existing audio and stop it
+        const existingAudio = document.getElementById('beat-preview') as HTMLAudioElement;
+        if (existingAudio) {
+          existingAudio.pause();
+          existingAudio.remove();
+        }
+        
+        setPreviewingBeatId(null);
+        return;
+      }
+      
+      // Stop any existing preview
+      const existingAudio = document.getElementById('beat-preview') as HTMLAudioElement;
+      if (existingAudio) {
+        existingAudio.pause();
+        existingAudio.remove();
+      }
+      
+      // Create a new audio element for this preview
+      const audio = document.createElement('audio');
+      audio.id = 'beat-preview';
+      audio.src = beat.fileUrl;
+      audio.loop = true;
+      audio.controls = true; // Show controls so user can play manually if autoplay fails
+      audio.style.width = '100%';
+      audio.style.marginTop = '10px';
+      audio.style.marginBottom = '10px';
+      
+      // Add a label
+      const container = document.createElement('div');
+      container.id = 'beat-preview-container';
+      const label = document.createElement('div');
+      label.textContent = `Preview: ${beat.title} - ${beat.bpm} BPM`;
+      label.style.marginBottom = '5px';
+      label.style.fontSize = '12px';
+      
+      // Add to dialog
+      container.appendChild(label);
+      container.appendChild(audio);
+      
+      // Add to document in the dialog
+      const dialogContent = document.querySelector('[role="dialog"]');
+      if (dialogContent) {
+        // Look for the dialog description where we can insert our preview
+        const dialogDesc = dialogContent.querySelector('div[role="dialog"] > div > div:nth-child(2)');
+        if (dialogDesc) {
+          dialogDesc.appendChild(container);
+        } else {
+          // Fallback, just add somewhere in the dialog
+          dialogContent.appendChild(container);
+        }
+      } else {
+        // Last resort - add to body
+        document.body.appendChild(container);
+      }
+      
+      // Try to play (may be blocked by browser)
+      audio.play().catch(err => {
+        console.log("Autoplay blocked, user can click play button");
+      });
+      
+      // Mark this beat as being previewed
+      setPreviewingBeatId(beat.id);
+      
+      // Also select this beat
+      setSelectedBeatId(beat.id);
+    } catch (error) {
+      console.error("Error previewing beat:", error);
+      
+      // Even if preview fails, still select the beat
+      setSelectedBeatId(beat.id);
+      
+      toast({
+        title: `${beat.title} selected`,
+        description: `${beat.bpm} BPM ${beat.vibe} beat - Click Select to use in freestyle`,
+        variant: "default"
+      });
     }
-    
-    // Mark as selected
-    setPreviewingBeatId(beat.id);
-    setSelectedBeatId(beat.id);
-    
-    toast({
-      title: `${beat.title} selected`,
-      description: `${beat.bpm} BPM ${beat.vibe} beat - Click Select to use in freestyle`,
-      variant: "default"
-    });
   };
 
   // Handle dialog close
