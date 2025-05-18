@@ -9,6 +9,8 @@ export type Beat = {
   unlockLevel?: number;
 };
 
+const BUCKET_URL = "https://flowvaultbeat.replit.app";
+
 // Beat categories/vibes for filtering
 export const BEAT_VIBES = [
   'battle',
@@ -28,28 +30,28 @@ export const beats: Beat[] = [
     title: "Battle Bounce",
     bpm: 90,
     vibe: "battle",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824466851_9a04f3bf5125b925c8eea0fc94e7a2e9.mp3"
+    fileUrl: `${BUCKET_URL}/battle-bounce.mp3`
   },
   {
     id: "lofi-waves",
     title: "Lofi Waves",
     bpm: 75,
     vibe: "lo-fi",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824490370_c7eb83d393caa40f2c986e26baa4c7cd.mp3"
+    fileUrl: `${BUCKET_URL}/vinyl-memories.mp3`
   },
   {
     id: "trap-heat",
     title: "Trap Heat",
     bpm: 140,
     vibe: "trap",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824516932_a49afd97711defd8e74d62bb9e29be83.mp3"
+    fileUrl: `${BUCKET_URL}/808-ambush.mp3`
   },
   {
     id: "classic-boom",
     title: "Classic Boom",
     bpm: 92,
     vibe: "boom-bap",
-    fileUrl: "https://storage.googleapis.com/replit/images/1683824538234_1e57f7c71a424ef8c6f1fe9e4c4acc7c.mp3"
+    fileUrl: `${BUCKET_URL}/boom-bap-basics.mp3`
   },
   {
     id: "chill-vibes",
