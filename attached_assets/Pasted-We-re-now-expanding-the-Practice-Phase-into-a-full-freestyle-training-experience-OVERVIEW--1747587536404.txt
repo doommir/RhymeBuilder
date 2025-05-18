@@ -1,0 +1,91 @@
+We’re now expanding the Practice Phase into a full freestyle training experience.
+
+---
+
+## OVERVIEW
+
+### Users should be able to:
+
+1. **Choose a beat from a beat library**
+2. **See a random word generator that updates during freestyle**
+3. **Freestyle over beat**
+4. **Transcribe with Whisper**
+5. **Tap lines to save to Flow Vault**
+
+---
+
+## PART 1: Beat Library & Selection
+
+### Create a new JSON file with 5–10 beats:
+
+```ts
+type Beat = {
+  id: string;
+  title: string;
+  bpm: number;
+  vibe: string; // e.g. “laid-back”, “battle”, “upbeat”
+  fileUrl: string;
+};
+
+const beats: Beat[] = [
+  { id: "battle-bounce", title: "Battle Bounce", bpm: 90, vibe: "battle", fileUrl: "/beats/battle-bounce.mp3" },
+  { id: "lofi-flow", title: "Lofi Flow", bpm: 80, vibe: "laid-back", fileUrl: "/beats/lofi-flow.mp3" },
+  { id: "trap-snap", title: "Trap Snap", bpm: 140, vibe: "hype", fileUrl: "/beats/trap-snap.mp3" },
+  ...
+];
+```
+
+### UI:
+
+- Add a **Beat Selection Modal** before practice starts
+- Show beat title, BPM, and vibe
+- Button: “Preview” and “Choose This Beat”
+- After user selects a beat → begin session
+
+---
+
+## PART 2: Random Word Generator
+
+### Features:
+
+- Display a large word in the top corner of the freestyle screen
+- Every **8–10 seconds**, the word updates
+- Words should be relevant to rap vocabulary (nouns, actions, emotions)
+
+Example:
+```ts
+const words = ["dream", "mirror", "elevate", "flex", "truth", "shadow", "ignite"];
+```
+
+- Use `setInterval()` to update the word during the session
+- Optional toggle: “Show Words” or “Freestyle Freely”
+
+---
+
+## PART 3: Freestyle + Transcription (Already in progress)
+
+Ensure the following:
+
+- Selected beat plays in background
+- Microphone starts recording on tap
+- Whisper transcribes user audio
+- Display lines in real-time
+- Let user tap any line → “Save to Flow Vault”
+
+---
+
+## Summary Screen
+
+At the end of session:
+
+- Show beat name
+- Show transcription
+- Show any saved lines
+- XP earned
+- Button: “Retry with new words” or “Try a new beat”
+
+---
+
+This will make the practice experience feel guided, interactive, and endlessly replayable.
+
+Let me know when this is ready — next we can add **practice goals**, **“ghost rapper” AI duels**, or **live bar scoring**.
