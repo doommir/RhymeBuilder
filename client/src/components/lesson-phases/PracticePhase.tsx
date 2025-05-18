@@ -673,13 +673,13 @@ export default function PracticePhase({
                   <div className="border rounded p-3 bg-white">
                     <p className="text-sm font-medium mb-2">Test Beat Audio</p>
                     <audio
-                      src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                      src={selectedBeat.fileUrl}
                       controls
                       loop
                       className="w-full"
                     />
                     <p className="text-xs text-gray-500 mt-2">
-                      Due to browser restrictions, this is a sample beat. Your selected beat will play during recording.
+                      {selectedBeat.title} - {selectedBeat.vibe} beat at {selectedBeat.bpm} BPM. Use this while you freestyle.
                     </p>
                   </div>
                 </div>
