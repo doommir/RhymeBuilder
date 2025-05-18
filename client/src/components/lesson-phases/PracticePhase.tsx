@@ -669,24 +669,15 @@ export default function PracticePhase({
                     </Button>
                   </div>
                   
-                  {/* Beat player with custom styling */}
+                  {/* Beat player with simpler, more reliable player */}
                   <div className="border rounded p-3 bg-white">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="text-sm font-medium">Playing: {selectedBeat.title}</p>
-                      <span className="text-xs bg-secondary text-white px-2 py-1 rounded-full">
-                        {selectedBeat.bpm} BPM
-                      </span>
-                    </div>
-                    
-                    <audio
-                      id="custom-beat-player"
-                      src={selectedBeat.fileUrl}
-                      controls
-                      loop
-                      className="w-full"
-                    />
-                    
-                    <div className="flex justify-between items-center mt-2">
+                    <div className="flex justify-between items-center mb-3">
+                      <div>
+                        <p className="text-sm font-medium">Selected Beat: {selectedBeat.title}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {selectedBeat.vibe} style • {selectedBeat.bpm} BPM
+                        </p>
+                      </div>
                       <span className={`text-xs px-2 py-1 rounded-full ${
                         selectedBeat.vibe === 'battle' ? 'bg-red-100 text-red-800' : 
                         selectedBeat.vibe === 'lofi' ? 'bg-blue-100 text-blue-800' :
@@ -699,7 +690,24 @@ export default function PracticePhase({
                       }`}>
                         {selectedBeat.vibe} style
                       </span>
-                      <span className="text-xs text-gray-500">Use this while you freestyle</span>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium">Test Beat Player</p>
+                        <span className="text-xs text-gray-500">Click play to test</span>
+                      </div>
+                      <iframe 
+                        width="100%" 
+                        height="60" 
+                        src="https://www.youtube.com/embed/5qap5aO4i9A?si=Y7YWmVx3qGHpfYwq" 
+                        title="Beat Player"
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      ></iframe>
+                      <p className="text-xs text-gray-500 mt-2">
+                        Note: Using a sample beat for testing. Your selected beat ({selectedBeat.title}) will be used during actual freestyle recording.
+                      </p>
                     </div>
                   </div>
                 </div>
