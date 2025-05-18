@@ -1,0 +1,80 @@
+We’re now focusing on fixing and building out the **Practice Phase** of the lesson flow so that users can freestyle with a beat, transcribe their flow, and save punchlines into the Flow Vault.
+
+---
+
+## GOAL
+
+Enable the following functionality inside the practice phase of the lesson:
+
+1. **Load and play beat audio**
+2. **Record user freestyle (via microphone)**
+3. **Transcribe using OpenAI Whisper**
+4. **Display transcript line by line**
+5. **Allow users to tap a line → Save to Flow Vault**
+
+---
+
+## STEP-BY-STEP FUNCTIONALITY TO BUILD
+
+### 1. Audio Beat Playback
+
+- Accept a `practiceBeatUrl` (e.g., `/beats/battle-bounce.mp3`) from the lesson module.
+- Render a play/pause button with audio controls.
+- Load and stream the beat in the background of the practice session.
+- Optional: Use waveform animation or countdown indicator before recording.
+
+```tsx
+<audio controls autoplay src={lesson.practiceBeatUrl}></audio>
+```
+
+If autoplay fails due to browser restrictions, allow user to manually press "Start Beat."
+
+---
+
+### 2. Microphone Input for Freestyle
+
+- When beat playback starts, enable microphone recording.
+- Show a "Recording..." indicator while beat plays.
+- Start recording at the same time the beat starts (or user taps “Start Recording”)
+- Allow up to 60 seconds for now.
+
+Use `navigator.mediaDevices.getUserMedia` to capture audio.
+
+---
+
+### 3. Transcription using OpenAI Whisper
+
+- Send recorded audio to OpenAI’s Whisper API for transcription.
+- Transcribe to text and split it by sentence or pause for better formatting.
+- Show transcription in a scrollable text area or dynamic list below the player.
+
+---
+
+### 4. Tap to Save Lines
+
+- Each line should have a small [+] or bookmark icon.
+- When user taps the icon, prompt: “Save this line to your Flow Vault?”
+- On confirm, store the line with:
+```ts
+{
+  content: "transcribed line",
+  tags: ["freestyle", "setup-punchline"],
+  lessonId: "setup-punchline",
+  dateCreated: new Date().toISOString(),
+  isFavorite: false
+}
+```
+
+---
+
+### 5. Summary Screen
+
+- At the end, show:
+  - Transcript summary
+  - Any lines saved to vault
+  - XP earned (mocked or real)
+  - Button: “Retry Freestyle” or “Go to Flow Vault”
+
+---
+
+Let me know when this is complete — next we’ll add voice warmups, filler phrase assists, or live cadence feedback.

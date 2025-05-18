@@ -3,9 +3,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useRhymePad } from "@/hooks/use-rhymepad";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { blobToBase64 } from "@/lib/audioUtils";
+import { apiRequest } from "@/lib/queryClient";
 
 interface PracticePhaseProps {
   practiceBeatUrl: string;
