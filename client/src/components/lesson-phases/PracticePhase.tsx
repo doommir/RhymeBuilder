@@ -732,11 +732,24 @@ export default function PracticePhase({
                           <button 
                             className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
                             onClick={() => {
-                              const audio = new Audio('/audio/graveyard-shift.mp3');
+                              const audio = new Audio('/api/audio/graveyard-shift.mp3');
                               audio.volume = 0.8;
                               audio.play()
-                                .then(() => console.log("Audio playing successfully"))
-                                .catch(err => console.error("Error playing audio:", err));
+                                .then(() => {
+                                  console.log("Audio playing successfully");
+                                  toast({
+                                    title: "Beat Playing",
+                                    description: "Graveyard Shift beat is now playing",
+                                  });
+                                })
+                                .catch(err => {
+                                  console.error("Error playing audio:", err);
+                                  toast({
+                                    title: "Playback Error",
+                                    description: "Could not play the beat. " + err.message,
+                                    variant: "destructive"
+                                  });
+                                });
                             }}
                           >
                             Play Graveyard Shift Beat
@@ -745,11 +758,24 @@ export default function PracticePhase({
                           <button 
                             className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded"
                             onClick={() => {
-                              const audio = new Audio('/audio/shadow-cipher.mp3');
+                              const audio = new Audio('/api/audio/shadow-cipher.mp3');
                               audio.volume = 0.8;
                               audio.play()
-                                .then(() => console.log("Audio playing successfully"))
-                                .catch(err => console.error("Error playing audio:", err));
+                                .then(() => {
+                                  console.log("Audio playing successfully");
+                                  toast({
+                                    title: "Beat Playing",
+                                    description: "Shadow Cipher beat is now playing",
+                                  });
+                                })
+                                .catch(err => {
+                                  console.error("Error playing audio:", err);
+                                  toast({
+                                    title: "Playback Error",
+                                    description: "Could not play the beat. " + err.message,
+                                    variant: "destructive"
+                                  });
+                                });
                             }}
                           >
                             Play Shadow Cipher Beat

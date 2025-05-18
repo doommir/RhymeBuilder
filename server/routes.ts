@@ -128,6 +128,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Audio file serving route
+  app.get('/api/audio/:filename', (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
+    
+    const filename = req.params.filename;
+    const audioPath = path.join(process.cwd(), 'public', 'audio', filename);
+    
+    if (fs.existsSync(audioPath)) {
+      res.setHeader('Content-Type', 'audio/mpeg');
+      fs.createReadStream(audioPath).pipe(res);
+    } else {
+      res.status(404).json({ error: 'Audio file not found' });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

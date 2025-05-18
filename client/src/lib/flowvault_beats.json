@@ -4,13 +4,13 @@
     "title": "Graveyard Shift",
     "bpm": 85,
     "vibe": "dark",
-    "fileUrl": "/audio/graveyard-shift.mp3"
+    "fileUrl": "/api/audio/graveyard-shift.mp3"
   },
   {
     "id": "shadow-cipher",
     "title": "Shadow Cipher",
     "bpm": 90,
     "vibe": "battle",
-    "fileUrl": "/audio/shadow-cipher.mp3"
+    "fileUrl": "/api/audio/shadow-cipher.mp3"
   }
 ]
