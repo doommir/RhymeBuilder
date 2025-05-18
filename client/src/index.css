@@ -128,4 +128,32 @@
   .tap-word-option.incorrect {
     @apply bg-red-500 text-white;
   }
+  
+  /* Modern lesson styles */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary to-blue-500;
+  }
+  
+  /* Animation styles for lesson completion */
+  .animation-bounce {
+    animation: bounce 2s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Video phase styles */
+  .video-container {
+    @apply relative pb-[56.25%] h-0 overflow-hidden rounded-lg;
+  }
+  
+  .video-container iframe {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
 }
