@@ -669,18 +669,38 @@ export default function PracticePhase({
                     </Button>
                   </div>
                   
-                  {/* Simple but reliable audio player using an HTML5 audio tag */}
+                  {/* Beat player with custom styling */}
                   <div className="border rounded p-3 bg-white">
-                    <p className="text-sm font-medium mb-2">Test Beat Audio</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-sm font-medium">Playing: {selectedBeat.title}</p>
+                      <span className="text-xs bg-secondary text-white px-2 py-1 rounded-full">
+                        {selectedBeat.bpm} BPM
+                      </span>
+                    </div>
+                    
                     <audio
+                      id="custom-beat-player"
                       src={selectedBeat.fileUrl}
                       controls
                       loop
                       className="w-full"
                     />
-                    <p className="text-xs text-gray-500 mt-2">
-                      {selectedBeat.title} - {selectedBeat.vibe} beat at {selectedBeat.bpm} BPM. Use this while you freestyle.
-                    </p>
+                    
+                    <div className="flex justify-between items-center mt-2">
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        selectedBeat.vibe === 'battle' ? 'bg-red-100 text-red-800' : 
+                        selectedBeat.vibe === 'lofi' ? 'bg-blue-100 text-blue-800' :
+                        selectedBeat.vibe === 'trap' ? 'bg-orange-100 text-orange-800' :
+                        selectedBeat.vibe === 'boom-bap' ? 'bg-purple-100 text-purple-800' :
+                        selectedBeat.vibe === 'chill' ? 'bg-green-100 text-green-800' :
+                        selectedBeat.vibe === 'melodic' ? 'bg-pink-100 text-pink-800' :
+                        selectedBeat.vibe === 'energetic' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {selectedBeat.vibe} style
+                      </span>
+                      <span className="text-xs text-gray-500">Use this while you freestyle</span>
+                    </div>
                   </div>
                 </div>
               )}

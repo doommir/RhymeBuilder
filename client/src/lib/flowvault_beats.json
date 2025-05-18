@@ -3,8 +3,22 @@
     "id": "mic-assassin",
     "title": "Mic Assassin",
     "bpm": 90,
-    "vibe": "battle",
+    "vibe": "battle", 
     "fileUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  },
+  {
+    "id": "beat-sample-1",
+    "title": "Hip Hop Beat",
+    "bpm": 92,
+    "vibe": "battle",
+    "fileUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+  },
+  {
+    "id": "beat-sample-2", 
+    "title": "Freestyle Beat",
+    "bpm": 85,
+    "vibe": "chill",
+    "fileUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
   },
   {
     "id": "verbal-combat",
