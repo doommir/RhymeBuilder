@@ -209,7 +209,7 @@ export default function BeatsLibrary({ isOpen, onClose, onSelectBeat }: BeatsLib
             id="library-preview-player"
             src={selectedBeatId 
               ? allBeats.find(b => b.id === selectedBeatId)?.fileUrl
-              : "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
+              : "https://replitusercontent.com/api/v1/9a4fac51-e7a7-4f87-87c0-f84b4da487c3/objects/FlowVaultBeats/Mic%20Assassin%20-%20AI%20Music.mp3"}
             controls 
             className="w-full" 
           />
