@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useRhymePad } from "@/hooks/use-rhymepad";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface VideoPhaseProps {
   videoUrl: string;
@@ -43,16 +44,24 @@ export default function VideoPhase({
       return;
     }
     
+    // Add appropriate tags based on lesson
+    let tags = ["notes", `lesson-${lessonId}`];
+    
+    // Add specific tags for setup-punchline lesson
+    if (lessonId === "setup-punchline") {
+      tags = [...tags, "setup-punchline"];
+    }
+    
     addEntry({
       content: notes,
-      tags: ["notes", `lesson-${lessonId}`],
+      tags: tags,
       addedFrom: "lesson",
       lessonId,
       isFavorite: false
     });
     
     toast({
-      title: "Notes Saved to Flow Vault!",
+      title: "Saved to Flow Vault!",
       description: "Your notes have been added to your collection"
     });
     
@@ -75,7 +84,9 @@ export default function VideoPhase({
   return (
     <div className="max-w-4xl mx-auto">
       <Card className="p-6 border-2 mb-6">
-        <h2 className="text-2xl font-bold mb-4 gradient-text">Watch & Learn</h2>
+        <h2 className="text-2xl font-bold mb-4 gradient-text">
+          {lessonId === "setup-punchline" ? "Watch & Learn: Big L Masterclass" : "Watch & Learn"}
+        </h2>
         
         {/* Video embed container */}
         <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg mb-6 bg-black">
@@ -93,62 +104,101 @@ export default function VideoPhase({
         {!videoWatched && (
           <div className="mb-6 text-center">
             <Button onClick={simulateVideoComplete} variant="outline">
-              Simulate Video Watched
+              I've Watched This Video
             </Button>
           </div>
         )}
         
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Observation checklist */}
-          <div>
-            <h3 className="text-lg font-semibold mb-3">Observation Checklist</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Look for these elements while watching:
-            </p>
-            
-            <div className="space-y-3">
-              {observationChecklist.map((item, index) => (
-                <div key={index} className="flex items-start space-x-2">
-                  <Checkbox 
-                    id={`checkbox-${index}`} 
-                    checked={!!checkedItems[index]}
-                    onCheckedChange={() => handleCheckboxChange(index)}
-                  />
-                  <Label
-                    htmlFor={`checkbox-${index}`}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    {item}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
+        <Tabs defaultValue="observe" className="mb-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="observe">Observation Tasks</TabsTrigger>
+            <TabsTrigger value="notes">Take Notes</TabsTrigger>
+          </TabsList>
           
-          {/* Notes section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-3">Take Notes</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Save key techniques and phrases to your Flow Vault:
-            </p>
+          <TabsContent value="observe" className="mt-4">
+            <div className="bg-muted/20 p-4 rounded-lg mb-4">
+              <h3 className="text-lg font-semibold mb-2">
+                {lessonId === "setup-punchline" 
+                  ? "Watch How Big L Structures His Punchlines" 
+                  : "Observation Checklist"}
+              </h3>
+              
+              <p className="text-sm text-muted-foreground mb-4">
+                Check off each item as you notice it in the video:
+              </p>
+              
+              <div className="space-y-3">
+                {observationChecklist.map((item, index) => (
+                  <div key={index} className="flex items-start space-x-2 bg-white p-3 rounded-md border">
+                    <Checkbox 
+                      id={`checkbox-${index}`} 
+                      checked={!!checkedItems[index]}
+                      onCheckedChange={() => handleCheckboxChange(index)}
+                      className="mt-0.5"
+                    />
+                    <Label
+                      htmlFor={`checkbox-${index}`}
+                      className="text-sm font-medium leading-tight"
+                    >
+                      {item}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
             
-            <Textarea
-              placeholder="Write down techniques, flows, and phrases you want to remember..."
-              className="min-h-[120px] mb-3"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
-            
-            <Button 
-              variant="outline" 
-              onClick={handleSaveNotes}
-              disabled={!notes.trim()}
-              className="w-full mb-4"
-            >
-              Save to Flow Vault
-            </Button>
-          </div>
-        </div>
+            {lessonId === "setup-punchline" && (
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-blue-700 mb-2 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  Pro Tip
+                </h4>
+                <p className="text-sm text-blue-700 mb-0">
+                  Notice how Big L often delivers his punchlines with the same calm demeanor as his setups, letting the words create the impact rather than changing his delivery.
+                </p>
+              </div>
+            )}
+          </TabsContent>
+          
+          <TabsContent value="notes" className="mt-4">
+            <div className="bg-muted/20 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2">
+                {lessonId === "setup-punchline" 
+                  ? "Write Down Punches & Techniques" 
+                  : "Take Notes"}
+              </h3>
+              
+              <p className="text-sm text-muted-foreground mb-4">
+                {lessonId === "setup-punchline"
+                  ? "Write down punches you liked or setups you noticed..."
+                  : "Save key techniques and phrases to your Flow Vault:"}
+              </p>
+              
+              <Textarea
+                placeholder={lessonId === "setup-punchline" 
+                  ? "Example: 'Ask Beavis, I get nothing but-head' uses misdirection until the last syllable..."
+                  : "Write down techniques, flows, and phrases you want to remember..."}
+                className="min-h-[150px] mb-3"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+              
+              <Button 
+                variant="outline" 
+                onClick={handleSaveNotes}
+                disabled={!notes.trim()}
+                className="w-full"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+                </svg>
+                Save to Flow Vault
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
       </Card>
       
       <div className="flex justify-end">

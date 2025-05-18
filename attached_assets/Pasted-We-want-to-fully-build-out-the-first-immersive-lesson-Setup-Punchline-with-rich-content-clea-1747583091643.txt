@@ -1,0 +1,92 @@
+We want to fully build out the first immersive lesson: **Setup & Punchline** with rich content, clear structure, and a real example from a legendary freestyle artist.
+
+### LESSON ID: `setup-punchline`
+
+---
+
+## PHASE 1: Reading – What You'll Learn
+
+Replace the current short description with:
+
+**Text:**
+> One of the most important techniques in freestyle and battle rap is the setup + punchline combo.  
+>  
+> The **setup** creates context — it may sound ordinary, but it leads the listener down a path.  
+> The **punchline** then delivers the surprise — a joke, a threat, or a clever wordplay.  
+>  
+> These often happen in **2-bar pairs**:  
+> - **Bar 1** = Setup  
+> - **Bar 2** = Punchline  
+>  
+> A master of this structure was **Big L**, one of Harlem’s finest.  
+> He was known for setting up calm, chill lines before dropping brutal or hilarious punches.  
+>  
+> Example:  
+> *"Ask Beavis, I get nothing but-head"*  
+>  
+> The listener doesn’t expect the wordplay flip until the final moment. That’s the punch.  
+>  
+> By learning to write with structure, you build tension — and deliver satisfaction.
+
+---
+
+## PHASE 2: Watch & Learn – Embed Big L Video
+
+**Replace current video with this one**:  
+> https://www.youtube.com/watch?v=qggxTtnKTMo  
+(Big L & Jay-Z Freestyle — legendary for punchline structure)
+
+**Checklist Questions:**
+- What line sets up the punch?
+- Is the punch humorous, threatening, or clever?
+- How does Big L use calm delivery to build up tension?
+- Which punchline made the crowd react most?
+
+**Below checklist**, include a note box:
+- Placeholder: “Write down punches you liked or setups you noticed...”
+- Button: “Save to Flow Vault” (auto-tagged: `["lesson", "setup-punchline"]`)
+
+---
+
+## PHASE 3: Practice Freestyle
+
+- Play beat: `/beats/battle-bounce.mp3`
+- Allow mic input using Whisper transcription
+- Transcribe user’s freestyle below
+- User can tap a line and click: “Save as Punchline to Flow Vault” (tagged with `freestyle`, `setup-punchline`)
+
+---
+
+## PHASE 4: Recall
+
+### 1. Flashcard (info_card)
+**Question**: What’s a punchline?  
+**Content**: A clever, funny, or aggressive bar that surprises the listener, usually delivered after a setup.
+
+### 2. Multiple Choice
+**Question**: What part of this is the punchline?  
+**Options**:  
+- I walk into the club like what up  
+- I’m here to burn it down and light it up  
+- You already know the vibes  
+- I’m sipping soda, sober
+
+**Correct Answer**: “I’m here to burn it down and light it up”
+
+### 3. Fill-in-the-blank
+**Prompt**: A great punchline should feel both _______ and _______.
+
+**Correct**: “unexpected” / “inevitable”
+
+---
+
+## LESSON COMPLETE
+
+At the end:
+- Show XP earned
+- Recap Flow Vault entries saved
+- Button: “Retry Freestyle” or “Go to Flow Vault”
+
+---
+
+Let me know when the lesson is implemented — next we’ll work on **filler phrases** or **cadence mastery** with a new rapper spotlight.

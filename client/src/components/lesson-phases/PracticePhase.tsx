@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useRhymePad } from "@/hooks/use-rhymepad";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface PracticePhaseProps {
   practiceBeatUrl: string;
@@ -145,9 +147,17 @@ export default function PracticePhase({
       return;
     }
     
+    // Default tags
+    let tags = ["freestyle", `lesson-${lessonId}`];
+    
+    // Add specific tags for setup-punchline lesson
+    if (lessonId === "setup-punchline") {
+      tags = [...tags, "setup-punchline"];
+    }
+    
     addEntry({
       content: selectedLine,
-      tags: ["freestyle", `lesson-${lessonId}`],
+      tags: tags,
       addedFrom: "freestyle",
       lessonId,
       isFavorite: false
@@ -155,7 +165,9 @@ export default function PracticePhase({
     
     toast({
       title: "Added to Flow Vault!",
-      description: "Your line has been saved to your collection"
+      description: lessonId === "setup-punchline" 
+        ? "Your punchline has been saved to your collection" 
+        : "Your line has been saved to your collection"
     });
     
     setSelectedLine("");
@@ -169,13 +181,34 @@ export default function PracticePhase({
   return (
     <div className="max-w-4xl mx-auto">
       <Card className="p-6 border-2 mb-6">
-        <h2 className="text-2xl font-bold mb-4 gradient-text">Practice Time</h2>
+        <h2 className="text-2xl font-bold mb-4 gradient-text">
+          {lessonId === "setup-punchline" ? "Practice: Setup & Punchline" : "Practice Time"}
+        </h2>
         
         <div className="mb-6">
-          <p className="text-gray-700 mb-4">
-            Now it's your turn to practice! We'll play a beat and record your freestyle, 
-            transcribing your words in real-time. Then you can save your best lines to your Flow Vault.
-          </p>
+          {lessonId === "setup-punchline" ? (
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+              <h3 className="text-orange-800 font-semibold flex items-center text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
+                </svg>
+                Challenge: Create Your Own Setup & Punchline
+              </h3>
+              <p className="text-orange-700 text-sm mt-2">
+                Try to create your own setup and punchline while freestyling. Remember:
+              </p>
+              <ul className="text-sm text-orange-700 mt-1 ml-6 list-disc">
+                <li className="mb-1">First bar is the setup (normal, straightforward)</li>
+                <li className="mb-1">Second bar is the punchline (surprising twist)</li>
+                <li>Keep it simple - just focus on the structure</li>
+              </ul>
+            </div>
+          ) : (
+            <p className="text-gray-700 mb-4">
+              Now it's your turn to practice! We'll play a beat and record your freestyle, 
+              transcribing your words in real-time. Then you can save your best lines to your Flow Vault.
+            </p>
+          )}
           
           {/* Beat player controls */}
           <div className="flex justify-center mb-6">
@@ -183,16 +216,18 @@ export default function PracticePhase({
               <Button 
                 onClick={handleStartRecording}
                 className="bg-green-500 hover:bg-green-600 text-white"
+                size="lg"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                 </svg>
-                Start Practice
+                {lessonId === "setup-punchline" ? "Start Practicing Punchlines" : "Start Practice"}
               </Button>
             ) : (
               <Button 
                 onClick={handleStopRecording}
                 className="bg-red-500 hover:bg-red-600 text-white"
+                size="lg"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clipRule="evenodd" />
@@ -212,21 +247,67 @@ export default function PracticePhase({
           
           {/* Transcription display */}
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Your Freestyle</h3>
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-lg font-semibold">
+                {lessonId === "setup-punchline" ? "Your Punchline Practice" : "Your Freestyle"}
+              </h3>
+              
+              {allLines.length > 0 && (
+                <Badge variant="outline" className="text-xs">
+                  Select any line to save it
+                </Badge>
+              )}
+            </div>
             
             {allLines.length > 0 ? (
               <div className="border rounded-lg p-4 bg-white min-h-[200px]">
-                {allLines.map((line, index) => (
-                  <div 
-                    key={index}
-                    onClick={() => handleLineSelect(line)}
-                    className={`py-1 px-2 rounded cursor-pointer transition-colors ${
-                      selectedLine === line ? 'bg-secondary/20 border-l-4 border-secondary' : 'hover:bg-gray-100'
-                    }`}
-                  >
-                    {line}
-                  </div>
-                ))}
+                {lessonId === "setup-punchline" ? (
+                  // Group lines as setup/punchline pairs
+                  Array.from({ length: Math.ceil(allLines.length / 2) }).map((_, pairIndex) => {
+                    const setupIndex = pairIndex * 2;
+                    const punchlineIndex = setupIndex + 1;
+                    const setup = allLines[setupIndex];
+                    const punchline = allLines[punchlineIndex];
+                    
+                    return (
+                      <div key={pairIndex} className="mb-4 border-b border-dashed border-gray-200 pb-2 last:border-0">
+                        <div 
+                          onClick={() => handleLineSelect(setup)}
+                          className={`py-1 px-2 rounded cursor-pointer transition-colors ${
+                            selectedLine === setup ? 'bg-gray-100 border-l-4 border-gray-400' : 'hover:bg-gray-50'
+                          }`}
+                        >
+                          <Badge variant="outline" className="text-xs mr-2 bg-gray-50">SETUP</Badge>
+                          {setup}
+                        </div>
+                        {punchline && (
+                          <div 
+                            onClick={() => handleLineSelect(punchline)}
+                            className={`py-1 px-2 mt-1 rounded cursor-pointer transition-colors ${
+                              selectedLine === punchline ? 'bg-secondary/20 border-l-4 border-secondary' : 'hover:bg-blue-50'
+                            }`}
+                          >
+                            <Badge className="text-xs mr-2 bg-secondary text-white">PUNCH</Badge>
+                            {punchline}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Regular display for other lesson types
+                  allLines.map((line, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => handleLineSelect(line)}
+                      className={`py-1 px-2 rounded cursor-pointer transition-colors ${
+                        selectedLine === line ? 'bg-secondary/20 border-l-4 border-secondary' : 'hover:bg-gray-100'
+                      }`}
+                    >
+                      {line}
+                    </div>
+                  ))
+                )}
               </div>
             ) : (
               <div className="border rounded-lg p-4 bg-gray-50 min-h-[200px] flex items-center justify-center text-gray-400">
@@ -236,18 +317,19 @@ export default function PracticePhase({
           </div>
           
           {/* Save to vault button */}
-          <div className="flex justify-end">
-            <Button
-              onClick={handleSaveToVault}
-              disabled={!selectedLine}
-              className="bg-blue-500 hover:bg-blue-600 text-white"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
-              </svg>
-              Save Selected Line to Flow Vault
-            </Button>
-          </div>
+          {selectedLine && (
+            <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
+              <Button
+                onClick={handleSaveToVault}
+                className="bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z" />
+                </svg>
+                {lessonId === "setup-punchline" ? "Save as Punchline to Flow Vault" : "Save to Flow Vault"}
+              </Button>
+            </div>
+          )}
         </div>
       </Card>
       

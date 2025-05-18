@@ -44,7 +44,8 @@ export default function ModernLesson({ lesson, onComplete }: ModernLessonProps) 
       case 'reading':
         return (
           <ReadingPhase 
-            readingText={lesson.readingText} 
+            readingText={lesson.readingText}
+            lessonId={lesson.id}
             onComplete={handleReadingComplete} 
           />
         );

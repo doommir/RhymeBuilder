@@ -70,51 +70,57 @@ const lessonModules: Record<string, LessonModule> = {
     description: "Learn how to craft effective setups and deliver powerful punchlines",
     level: 1,
     totalXp: 25,
-    readingText: "In battle and punchline rap, setups build the context and punchlines deliver the surprise or wordplay. Most happen in 2-bar sequences. A great punchline feels both unexpected and inevitable at the same time.",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Placeholder - Replace with actual video
+    readingText: "One of the most important techniques in freestyle and battle rap is the setup + punchline combo.\n\nThe **setup** creates context — it may sound ordinary, but it leads the listener down a path.\nThe **punchline** then delivers the surprise — a joke, a threat, or a clever wordplay.\n\nThese often happen in **2-bar pairs**:\n- **Bar 1** = Setup\n- **Bar 2** = Punchline\n\nA master of this structure was **Big L**, one of Harlem's finest.\nHe was known for setting up calm, chill lines before dropping brutal or hilarious punches.\n\nExample:\n*\"Ask Beavis, I get nothing but-head\"*\n\nThe listener doesn't expect the wordplay flip until the final moment. That's the punch.\n\nBy learning to write with structure, you build tension — and deliver satisfaction.",
+    videoUrl: "https://www.youtube.com/embed/qggxTtnKTMo", // Big L & Jay-Z Freestyle
     observationChecklist: [
       "What line sets up the punch?",
-      "Is the punch humorous or aggressive?",
-      "How does the rapper's delivery change for the punchline?",
-      "Are there any reaction shots from the audience/opponent?"
+      "Is the punch humorous, threatening, or clever?",
+      "How does Big L use calm delivery to build up tension?",
+      "Which punchline made the crowd react most?"
     ],
-    practiceBeatUrl: "/beats/battle-bounce.mp3", // Placeholder
+    practiceBeatUrl: "/beats/battle-bounce.mp3", 
     recallExercises: [
       {
         id: uuid(),
         type: "info_card",
-        question: "What is a punchline?",
-        content: "A punchline is the culmination of a setup, delivering the impact through wordplay, metaphor, or a surprising twist.",
+        question: "What's a punchline?",
+        content: "A clever, funny, or aggressive bar that surprises the listener, usually delivered after a setup.",
         xpReward: 5
       },
       {
         id: uuid(),
         type: "multiple_choice",
-        question: "Which of these is a punchline?",
+        question: "What part of this is the punchline?",
         options: [
-          "I'm from the streets where we hustle every day",
-          "My flow is like a river, unstoppable and deep",
-          "I'm so hot, even my ice melts"
+          "I walk into the club like what up",
+          "I'm here to burn it down and light it up",
+          "You already know the vibes",
+          "I'm sipping soda, sober"
         ],
-        correctAnswer: "I'm so hot, even my ice melts",
-        xpReward: 5
-      },
-      {
-        id: uuid(),
-        type: "multiple_choice",
-        question: "True or False: The setup should be more clever than the punchline.",
-        options: ["True", "False"],
-        correctAnswer: "False",
+        correctAnswer: "I'm here to burn it down and light it up",
         xpReward: 5
       },
       {
         id: uuid(),
         type: "fill_in_blank",
-        question: "Complete this setup-punchline sequence",
-        content: "They say money talks, but mine says _____",
-        blankIndex: 7,
-        options: ["hello", "goodbye", "nothing"],
-        correctAnswer: "goodbye",
+        question: "A great punchline should feel both ______ and ______.",
+        content: "A great punchline should feel both unexpected and _______.",
+        blankIndex: 6,
+        options: ["boring", "inevitable", "complex"],
+        correctAnswer: "inevitable",
+        xpReward: 5
+      },
+      {
+        id: uuid(),
+        type: "multiple_choice",
+        question: "Who is featured in the video as a master of setup and punchline?",
+        options: [
+          "Kendrick Lamar",
+          "Jay-Z",
+          "Big L",
+          "Tupac"
+        ],
+        correctAnswer: "Big L",
         xpReward: 5
       }
     ]
