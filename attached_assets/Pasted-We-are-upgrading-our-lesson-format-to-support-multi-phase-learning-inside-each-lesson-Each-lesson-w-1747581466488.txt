@@ -1,0 +1,133 @@
+We are upgrading our lesson format to support multi-phase learning inside each lesson. Each lesson will now include 5 components:
+
+---
+
+## NEW LESSON FLOW FORMAT
+
+Each lesson should follow this structure:
+
+1. **Reading Phase**
+   - Display short explanatory text (`readingText`)
+
+2. **Video Phase**
+   - Embed a YouTube video from the `videoUrl`
+   - Show a checklist from `observationChecklist[]`
+   - Include a note-taking textarea
+   - Button: “Save to Flow Vault” (tagged with `lessonId` and `note`)
+
+3. **Practice Phase**
+   - Play a beat from `practiceBeatUrl`
+   - Record user’s freestyle using OpenAI’s Whisper API
+   - Display transcription in real time
+   - Let users tap any transcribed line → “Add to Flow Vault” (tagged with `freestyle`, `lessonId`)
+
+4. **Recall Phase**
+   - Flashcard-style review from `recallExercises[]`
+   - Support types: `info_card`, `multiple_choice`, `fill_in_blank`
+   - Each question awards XP
+
+5. **Lesson Completion**
+   - Show XP earned
+   - Confirm any Vault entries saved
+   - Offer retry option or suggest next lesson
+
+---
+
+## LESSON DATA STRUCTURE
+
+```ts
+type LessonModule = {
+  id: string;
+  title: string;
+  description: string;
+  readingText: string;
+  videoUrl: string;
+  observationChecklist: string[];
+  practiceBeatUrl: string;
+  recallExercises: FlashcardExercise[];
+};
+
+type FlashcardExercise = {
+  type: "info_card" | "multiple_choice" | "fill_in_blank";
+  question: string;
+  content: string;
+  correctAnswer?: string;
+  options?: string[];
+};
+```
+
+---
+
+## INITIAL LESSON MODULES
+
+### 1. Setup & Punchline
+
+- **readingText**: “In battle and punchline rap, setups build the context and punchlines deliver the surprise or wordplay. Most happen in 2-bar sequences.”
+- **videoUrl**: https://www.youtube.com/watch?v=sample1
+- **observationChecklist**:
+  - "What line sets up the punch?"
+  - "Is the punch humorous or aggressive?"
+- **practiceBeatUrl**: `/beats/battle-bounce.mp3`
+- **recallExercises**:
+  - Multiple Choice: “Which of these is a punchline?”
+  - True/False: “The setup should be more clever than the punchline.”
+
+---
+
+### 2. Filler Phrases
+
+- **readingText**: “Filler phrases are short transitions that keep your flow going when you’re thinking of your next bar. They also give space to breathe.”
+- **videoUrl**: https://www.youtube.com/watch?v=sample2
+- **observationChecklist**:
+  - "How often do you hear repeated phrases?"
+  - "Do they fit the rhythm?"
+- **practiceBeatUrl**: `/beats/laidback-loop.mp3`
+- **recallExercises**:
+  - Multiple Choice: “What is a filler phrase used for?”
+  - Multiple Choice: “Choose the filler: ‘You know what I mean’ / ‘I spit bars like fire’ / ‘Mic check one two’”
+
+---
+
+### 3. Cadence & Flow
+
+- **readingText**: “Cadence is your rhythmic pattern. It’s what makes your bars sound musical. Changing cadence keeps the listener engaged.”
+- **videoUrl**: https://www.youtube.com/watch?v=sample3
+- **observationChecklist**:
+  - "Where do they pause?"
+  - "Do they ride the beat or push against it?"
+- **practiceBeatUrl**: `/beats/flowy-vibes.mp3`
+- **recallExercises**:
+  - Info Card: “What is cadence?”
+  - Multiple Choice: “Which is an example of syncopation?”
+
+---
+
+### 4. Riding the Beat
+
+- **readingText**: “Riding the beat means aligning your words and pauses to the rhythm so that it feels natural and groovy. Some rappers glide with it, others bounce off it.”
+- **videoUrl**: https://www.youtube.com/watch?v=sample4
+- **observationChecklist**:
+  - "Does the rapper follow the kick or the snare?"
+  - "Are syllables landing on beat or behind?"
+- **practiceBeatUrl**: `/beats/boom-bap-101.mp3`
+- **recallExercises**:
+  - Multiple Choice: “What does it mean to ‘ride the beat’?”
+  - Multiple Choice: “Which line best matches a slow beat?”
+
+---
+
+### 5. Multisyllabic Rhymes
+
+- **readingText**: “Multisyllabic rhymes are the advanced form of rhyming multiple syllables across bars, like ‘elevation’ with ‘meditation’ or ‘hologram’ with ‘follow them’.”
+- **videoUrl**: https://www.youtube.com/watch?v=sample5
+- **observationChecklist**:
+  - "How many syllables are rhyming?"
+  - "Do the rhymes land on the beat?"
+- **practiceBeatUrl**: `/beats/technical-flow.mp3`
+- **recallExercises**:
+  - Multiple Choice: “Which is a multisyllabic rhyme?”
+  - Fill-in-the-blank: “______ with dedication, soul elevation”
+
+---
+
+Let me know once this structure is implemented — we’ll finalize real YouTube links, audio beats, and sample entries for user practice.
