@@ -9,7 +9,7 @@ import { useRhymePad } from "@/hooks/use-rhymepad";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { blobToBase64 } from "@/lib/audioUtils";
 import { Beat, getBeatById } from "@/lib/beats-data";
-import BeatSelectionModal from "@/components/BeatSelectionModal";
+import BeatsLibrary from "@/components/BeatsLibrary";
 import FreestyleWordPrompt from "@/components/FreestyleWordPrompt";
 
 interface PracticePhaseProps {
@@ -546,8 +546,8 @@ export default function PracticePhase({
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* Beat Selection Modal */}
-      <BeatSelectionModal 
+      {/* Beat Selection Library */}
+      <BeatsLibrary 
         isOpen={isBeatSelectionOpen}
         onClose={() => setIsBeatSelectionOpen(false)}
         onSelectBeat={handleBeatSelect}
