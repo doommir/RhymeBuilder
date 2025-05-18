@@ -70,7 +70,7 @@ export default function PracticePhase({
         title: 'Mic Assassin',
         bpm: 90,
         vibe: 'battle',
-        fileUrl: 'https://flowvaultbeat.replit.app/Mic%20Assassin%20-%20AI%20Music.mp3'
+        fileUrl: 'https://replitusercontent.com/objects/FlowVaultBeats/Mic%20Assassin%20-%20AI%20Music.mp3'
       });
     }
   }, [selectedBeat]);
