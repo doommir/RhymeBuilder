@@ -7,62 +7,66 @@ export type Beat = {
   fileUrl: string;
 };
 
+// For the current implementation, we'll use the default lesson beat for all beats
+// In a production app, we would have actual beat files for each one
+const DEFAULT_BEAT_URL = "https://assets.mixkit.co/music/preview/mixkit-hip-hop-02-621.mp3";
+
 export const beats: Beat[] = [
   { 
     id: "battle-bounce", 
     title: "Battle Bounce", 
     bpm: 90, 
     vibe: "battle", 
-    fileUrl: "/beats/battle-bounce.mp3" 
+    fileUrl: DEFAULT_BEAT_URL 
   },
   { 
     id: "lofi-flow", 
     title: "Lofi Flow", 
     bpm: 80, 
     vibe: "laid-back", 
-    fileUrl: "/beats/lofi-flow.mp3" 
+    fileUrl: DEFAULT_BEAT_URL 
   },
   { 
     id: "trap-snap", 
     title: "Trap Snap", 
     bpm: 140, 
     vibe: "hype", 
-    fileUrl: "/beats/trap-snap.mp3" 
+    fileUrl: DEFAULT_BEAT_URL
   },
   { 
     id: "boom-bap", 
     title: "Boom Bap Classic", 
     bpm: 93, 
     vibe: "classic", 
-    fileUrl: "/beats/boom-bap.mp3" 
+    fileUrl: DEFAULT_BEAT_URL 
   },
   { 
     id: "jazzy-vibe", 
     title: "Jazzy Vibes", 
     bpm: 85, 
     vibe: "chill", 
-    fileUrl: "/beats/jazzy-vibe.mp3" 
+    fileUrl: DEFAULT_BEAT_URL
   },
   { 
     id: "drill-time", 
     title: "Drill Time", 
     bpm: 145, 
     vibe: "hard", 
-    fileUrl: "/beats/drill-time.mp3" 
+    fileUrl: DEFAULT_BEAT_URL
   },
   { 
     id: "cloud-rap", 
     title: "Cloud Rapper", 
     bpm: 75, 
     vibe: "ethereal", 
-    fileUrl: "/beats/cloud-rap.mp3" 
+    fileUrl: DEFAULT_BEAT_URL
   },
   { 
     id: "underground", 
     title: "Underground Pulse", 
     bpm: 95, 
     vibe: "dark", 
-    fileUrl: "/beats/underground.mp3" 
+    fileUrl: DEFAULT_BEAT_URL
   }
 ];
 

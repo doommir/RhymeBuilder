@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogHeader, Di
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getAllBeats, Beat } from "@/lib/beats-data";
+import { useToast } from "@/hooks/use-toast";
 
 interface BeatSelectionModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
   const [previewingBeatId, setPreviewingBeatId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const beats = getAllBeats();
+  const { toast } = useToast();
 
   // Handle previewing a beat
   const handlePreview = (beat: Beat) => {
@@ -32,12 +34,29 @@ export default function BeatSelectionModal({ isOpen, onClose, onSelectBeat }: Be
 
     // Start new preview
     setPreviewingBeatId(beat.id);
-    audioRef.current = new Audio(beat.fileUrl);
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.8;
-    audioRef.current.play().catch(err => {
-      console.error("Error playing audio:", err);
-    });
+    try {
+      // Create a new audio element
+      audioRef.current = new Audio(beat.fileUrl);
+      // Set up audio properties
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.5;
+      
+      // Play the audio
+      audioRef.current.play()
+        .catch(err => {
+          console.error("Error playing audio:", err);
+          // Notify user about playback issue
+          toast({
+            title: "Playback Issue",
+            description: "Try interacting with the page first before playing beats.",
+            variant: "destructive"
+          });
+          setPreviewingBeatId(null);
+        });
+    } catch (err) {
+      console.error("Error setting up audio:", err);
+      setPreviewingBeatId(null);
+    }
   };
 
   // Stop preview when dialog closes
