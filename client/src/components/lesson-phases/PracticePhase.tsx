@@ -12,6 +12,8 @@ import { Beat, getBeatById } from "@/lib/beats-data";
 import BeatsLibrary from "@/components/BeatsLibrary";
 import FreestyleWordPrompt from "@/components/FreestyleWordPrompt";
 import SunoEmbedPlayer from "@/components/SunoEmbedPlayer";
+import CountdownAnimation from "@/components/CountdownAnimation";
+import BeatSyncedWordPrompt from "@/components/BeatSyncedWordPrompt";
 
 interface PracticePhaseProps {
   practiceBeatUrl: string;
