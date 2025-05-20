@@ -11,7 +11,7 @@ import { blobToBase64 } from "@/lib/audioUtils";
 import { Beat, getBeatById } from "@/lib/beats-data";
 import BeatsLibrary from "@/components/BeatsLibrary";
 import FreestyleWordPrompt from "@/components/FreestyleWordPrompt";
-import SunoEmbedPlayer from "@/components/SunoEmbedPlayer";
+import SunoEmbedPlayer, { SunoBeat } from "@/components/SunoEmbedPlayer";
 import CountdownAnimation from "@/components/CountdownAnimation";
 import BeatSyncedWordPrompt from "@/components/BeatSyncedWordPrompt";
 
@@ -238,22 +238,13 @@ export default function PracticePhase({
       setTranscription("");
       setSelectedLine("");
       setErrorMessage(null);
+      
+      // Set recording state to 'preparing' - CountdownAnimation will handle the visual countdown
       setRecordingState('preparing');
       
-      // Start countdown
-      setCountdown(3);
+      // Note: We no longer need the countdown interval here
+      // The CountdownAnimation component will handle the timing and call startActualRecording when complete
       
-      // Countdown timer
-      const countdownInterval = setInterval(() => {
-        setCountdown(prev => {
-          if (prev <= 1) {
-            clearInterval(countdownInterval);
-            startActualRecording();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
     } catch (error) {
       console.error("Error starting recording process:", error);
       setRecordingState('idle');
