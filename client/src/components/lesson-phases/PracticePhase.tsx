@@ -734,11 +734,18 @@ export default function PracticePhase({
                         <div className="mb-4">
                           <SunoEmbedPlayer 
                             initialBeatId="beat-1"
-                            onSelectBeat={(beatId) => {
-                              console.log("Selected beat:", beatId);
+                            onSelectBeat={(beatId, beatInfo) => {
+                              console.log("Selected beat:", beatInfo);
+                              setSelectedBeat({
+                                id: beatInfo.id,
+                                title: beatInfo.title,
+                                bpm: beatInfo.bpm,
+                                vibe: beatInfo.vibe,
+                                fileUrl: beatInfo.embedCode // Store embed URL in fileUrl
+                              });
                               toast({
                                 title: "Beat Selected",
-                                description: `Beat ${beatId} will be used for recording`,
+                                description: `${beatInfo.title} (${beatInfo.bpm} BPM) will be used for recording`,
                               });
                             }}
                           />
@@ -757,10 +764,13 @@ export default function PracticePhase({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Word prompts sidebar */}
                 <div className="md:col-span-1">
-                  <FreestyleWordPrompt 
-                    enabled={wordPromptsEnabled}
-                    onEnableChange={setWordPromptsEnabled}
-                    wordUpdateInterval={9000} // 9 seconds between word changes
+                  <BeatSyncedWordPrompt 
+                    isActive={isRecording}
+                    bpm={selectedBeat?.bpm || 90}
+                    onWordChange={(word) => {
+                      console.log("New prompt word:", word);
+                      // Track words for XP bonus in future implementation
+                    }}
                   />
                 </div>
                 
@@ -831,11 +841,23 @@ export default function PracticePhase({
                   </div>
                   
                   {/* Recording indicator */}
+                  {recordingState === 'preparing' && (
+                    <div className="mb-6">
+                      <CountdownAnimation 
+                        isActive={recordingState === 'preparing'}
+                        duration={3}
+                        onComplete={startActualRecording}
+                      />
+                    </div>
+                  )}
+                  
                   {recordingState === 'recording' && (
-                    <div className="flex items-center justify-center mb-6">
-                      <div className="animate-pulse bg-red-500 rounded-full h-3 w-3 mr-2"></div>
-                      <span className="text-red-500 font-medium">Recording: {formatTime(recordingTime)}</span>
-                      <span className="ml-4 text-sm text-gray-500">(Max 60 seconds)</span>
+                    <div className="mb-6">
+                      <CountdownAnimation 
+                        isActive={recordingState === 'recording'}
+                        duration={60} // 60 second max for freestyle
+                        onComplete={handleStopRecording}
+                      />
                     </div>
                   )}
                 </div>

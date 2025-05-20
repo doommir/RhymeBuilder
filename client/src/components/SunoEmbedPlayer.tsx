@@ -3,9 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import sunoBeats from '@/lib/suno-embed-codes.json';
 
+interface Beat {
+  id: string;
+  title: string;
+  bpm: number;
+  vibe: string;
+  embedCode: string;
+}
+
 interface SunoEmbedPlayerProps {
   initialBeatId?: string;
-  onSelectBeat?: (beatId: string) => void;
+  onSelectBeat?: (beatId: string, beatInfo: Beat) => void;
 }
 
 export default function SunoEmbedPlayer({ 
@@ -29,7 +37,10 @@ export default function SunoEmbedPlayer({
   // Handle beat selection
   const handleSelectBeat = (beatId: string) => {
     setSelectedBeatId(beatId);
-    onSelectBeat?.(beatId);
+    const beatInfo = sunoBeats.find(beat => beat.id === beatId);
+    if (beatInfo && onSelectBeat) {
+      onSelectBeat(beatId, beatInfo as Beat);
+    }
   };
   
   return (
