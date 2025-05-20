@@ -1,37 +1,79 @@
 [
   {
     "id": "beat-1",
-    "title": "Beat 1",
+    "title": "Classic Boom Bap",
     "bpm": 90,
-    "vibe": "trap",
-    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+    "vibe": "boom-bap",
+    "embedCode": "https://suno.com/embed/04b89ca2-d0f2-445e-a8ff-89da62c8ad4b"
   },
   {
     "id": "beat-2",
-    "title": "Beat 2",
-    "bpm": 85,
-    "vibe": "boom-bap",
-    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+    "title": "Trap Vibes",
+    "bpm": 140,
+    "vibe": "trap",
+    "embedCode": "https://suno.com/embed/4c36d0fc-060e-49ca-a4ec-4bffaf091687"
   },
   {
     "id": "beat-3",
-    "title": "Beat 3",
-    "bpm": 95,
+    "title": "Chill Flow",
+    "bpm": 85,
     "vibe": "chill",
-    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+    "embedCode": "https://suno.com/embed/9e1fe519-56da-49a3-8496-9c69300b9106"
   },
   {
     "id": "beat-4",
-    "title": "Beat 4",
-    "bpm": 100,
+    "title": "Dark Corner",
+    "bpm": 95,
     "vibe": "dark",
-    "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+    "embedCode": "https://suno.com/embed/224959f7-f0e8-4d03-916d-93cb61e60fbf"
   },
   {
     "id": "beat-5",
-    "title": "Beat 5",
-    "bpm": 110,
+    "title": "Energy Flow",
+    "bpm": 120,
     "vibe": "energetic",
     "embedCode": "https://suno.com/embed/49ff37fd-80ae-4d27-9027-3dea40a5c305"
+  },
+  {
+    "id": "beat-6",
+    "title": "Midnight Cipher",
+    "bpm": 88,
+    "vibe": "dark",
+    "embedCode": "https://suno.com/embed/44aaa082-2fe8-4783-998f-3766cba9a79a"
+  },
+  {
+    "id": "beat-7",
+    "title": "Lofi Dreams",
+    "bpm": 75,
+    "vibe": "lofi",
+    "embedCode": "https://suno.com/embed/3a8ec80b-74a7-4a45-9830-ac36b500f391"
+  },
+  {
+    "id": "beat-8",
+    "title": "Battle Ready",
+    "bpm": 92,
+    "vibe": "battle",
+    "embedCode": "https://suno.com/embed/6451ca91-794f-425d-ad09-266001ac6211"
+  },
+  {
+    "id": "beat-9",
+    "title": "Jazz Fusion",
+    "bpm": 86,
+    "vibe": "jazzy",
+    "embedCode": "https://suno.com/embed/5f082a73-e5e3-432c-a8a8-501a67081879"
+  },
+  {
+    "id": "beat-10",
+    "title": "Future Funk",
+    "bpm": 105,
+    "vibe": "electronic",
+    "embedCode": "https://suno.com/embed/b8a9cc88-eed3-4163-a53d-26ece47e78a6"
+  },
+  {
+    "id": "beat-11",
+    "title": "Mellow Vibes",
+    "bpm": 80,
+    "vibe": "chill",
+    "embedCode": "https://suno.com/embed/5d46c2a3-ae25-43f0-9ce8-02f31929cdb1"
   }
 ]
