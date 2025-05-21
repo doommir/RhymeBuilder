@@ -5,27 +5,62 @@ import { z } from "zod";
 // Enhanced user model with gamification features
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
+  uid: text("uid").notNull(), // Firebase UID
+  username: text("username").notNull(),
   xp: integer("xp").notNull().default(0),
   streak: integer("streak").notNull().default(1),
-  lastActive: text("last_active").notNull().default(new Date().toISOString()),
+  lastActive: timestamp("last_active").notNull().defaultNow(),
   completedLessons: json("completed_lessons").$type<string[]>().notNull().default([]),
-  password: text("password").notNull(),
 });
 
 // Lessons table
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
-  lessonKey: text("lesson_key").notNull().unique(),
   title: text("title").notNull(),
-  description: text("description").notNull(),
-  level: integer("level").notNull().default(1),
-  totalXp: integer("total_xp").notNull().default(0),
-  imagePath: text("image_path"),
-  requiresLessonKey: text("requires_lesson_key"),
-  requiresLevel: integer("requires_level"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+  description: text("description"),
+  content: text("content"),
+  xpValue: integer("xp_value").default(10),
+  createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const lessonAttempts = pgTable("lesson_attempts", {
+  id: serial("id").primaryKey(),
+  uid: text("uid").notNull(),
+  lessonId: integer("lesson_id").notNull(),
+  completedAt: timestamp("completed_at").defaultNow(),
+  xpAwarded: integer("xp_awarded").default(10),
+  isCompleted: boolean("is_completed").default(true),
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Exercises table for different microlearning activities
 export const exercises = pgTable("exercises", {
@@ -87,6 +122,16 @@ export const insertUserProgressSchema = createInsertSchema(userProgress).pick({
   totalExercises: true,
   xpEarned: true,
   isCompleted: true,
+});
+
+// Audio Transcriptions table for storing results
+export const transcriptions = pgTable("transcriptions", {
+  id: serial("id").primaryKey(),
+  uid: text("uid").notNull(), // Firebase UID
+  audioPath: text("audio_path"),
+  text: text("text"),
+  lessonId: integer("lesson_id"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 // Types
