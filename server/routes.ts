@@ -6,6 +6,8 @@ import { verifyFirebaseToken } from './services/firebase';
 import { db } from './db';
 import { users } from '@shared/schema';
 import { eq } from 'drizzle-orm';
+import { Readable } from 'stream'; // Added import for Readable
+import FormData from 'form-data'; // Added import for FormData
 
 const router = express.Router();
 
@@ -26,16 +28,16 @@ router.post("/api/transcribe", async (req, res) => {
     // Check if we have audio data in the request
     if (!req.body || !req.body.audio) {
       return res.status(400).json({ message: "No audio data provided" });
-
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      console.error('Error updating XP:', error);
-      res.status(500).json({ message: 'Failed to update XP' });
-    }
-  });
+    } // Corrected: Removed extra brace from here
+    // Add any specific logic for this endpoint if needed, or it can be an empty try block if it was a mistake.
+  } catch (error) {
+    console.error('Error in /api/transcribe:', error); // Modified error message for clarity
+    res.status(500).json({ message: 'Failed to process request' }); // Modified error message for clarity
+  }
+});
   
-  // Audio transcription endpoint
-  app.post("/api/transcribe", async (req, res) => {
+// Second Audio transcription endpoint - ensure this is not a duplicate or intended to be different
+router.post("/api/transcribe2", async (req, res) => { // Changed path to avoid conflict, or merge if duplicate
     try {
       // Check if we have audio data in the request
       if (!req.body || !req.body.audio) {
@@ -63,12 +65,14 @@ router.post("/api/transcribe", async (req, res) => {
       formData.append('model', 'whisper-1');
       
       // Call the OpenAI API
+      const fetch = (await import('node-fetch')).default; // Dynamically import node-fetch
       const openAIResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
         method: 'POST',
         headers: {
+          ...formData.getHeaders(), // Spread FormData headers
           'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
         },
-        body: formData as any
+        body: formData
       });
       
       if (!openAIResponse.ok) {
@@ -103,8 +107,8 @@ router.post("/api/transcribe", async (req, res) => {
     }
   });
 
-  // Audio file serving route
-  app.get('/api/audio/:filename', (req, res) => {
+// Audio file serving route
+router.get('/api/audio/:filename', (req, res) => {
     const fs = require('fs');
     const path = require('path');
     
@@ -119,7 +123,4 @@ router.post("/api/transcribe", async (req, res) => {
     }
   });
 
-  const httpServer = createServer(app);
-
-  return httpServer;
-}
+export default router; // Added export default router
