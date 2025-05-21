@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 console.log('FIREBASE_PROJECT_ID:', process.env.FIREBASE_PROJECT_ID);
 console.log('FIREBASE_PRIVATE_KEY:', process.env.FIREBASE_PRIVATE_KEY);
 console.log('FIREBASE_CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL);
@@ -42,8 +44,13 @@ app.use((req, res, next) => {
 
 (async () => {
   app.use('/api', router);
-  const server = app.listen(5000, () => {
-    log('serving on port 5000');
+  const port = 5000;
+  const server = app.listen({
+    port,
+    host: '0.0.0.0',
+    reusePort: false,
+  }, () => {
+    log(`serving on port ${port}`);
   });
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -63,15 +70,5 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: false,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  // The "server" instance is already listening. Nothing else to do here.
 })();
